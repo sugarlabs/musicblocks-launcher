@@ -22,7 +22,7 @@ class MyWindow(Gtk.Window):
         
         
 win = MyWindow()
-win.set_title('Dragon Blocks')
+win.set_title('Music Blocks')
 win.view.load_uri('file:///app/bin/index.html')
 win.connect("destroy", Gtk.main_quit)
 win.show_all()
