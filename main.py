@@ -9,7 +9,8 @@ from gi.repository import WebKit2
 WebKit2.WebView.__gtype__
 WebKit2.Settings.__gtype__
 
-@Gtk.Template(filename='webview.ui')
+SCRIPT_PATH = os.path.dirname(os.path.realpath(__file__))
+@Gtk.Template(filename=os.path.join(SCRIPT_PATH, 'webview.ui'))
 class MyWindow(Gtk.Window):
     __gtype_name__ = "MyWindow"
     
