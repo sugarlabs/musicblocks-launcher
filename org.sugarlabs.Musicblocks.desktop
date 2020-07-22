@@ -1,0 +1,7 @@
+[Desktop Entry]
+Version=3.1
+Name=Music Blocks
+Exec=org.sugarlabs.Musicblocks
+Type=Application
+Icon=org.gnome.Musicblocks.svg
+Categories=Education;ComputerScience;Art;Music;
