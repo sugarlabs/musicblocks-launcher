@@ -36,7 +36,7 @@
                 {
                     "type": "git",
                     "url": "https://github.com/Clue88/musicblocks-launcher",
-                    "commit": "ffada3a3b359cf8d0e5b31a426459635ccbfc9cb",
+                    "commit": "511aac08d1c3e7dd4632ee1d890bbab7891e0d07",
                     "dest": "launcher"
                 }
             ]
