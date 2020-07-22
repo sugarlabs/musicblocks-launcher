@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component>
+    <id>org.sugarlabs.Musicblocks</id>
+    <name>Music Blocks</name>
+    <summary>A collection of tools for exploring fundamental musical concepts in a fun way.</summary>
+    <url type="homepage">https://github.com/sugarlabs/musicblocks/blob/master/README.md</url>
+    <metadata_license>AGPL-3.0</metadata_license>
+    <categories>
+        <category>Education</category>
+        <category>ComputerScience</category>
+        <category>Art</category>
+        <category>Music</category>
+    </categories>
+    <launchable type="desktop-id">org.sugarlabs.Musicblocks.desktop</launchable>
+
+    <releases>
+        <release version="3.1" date="2020-05-25" />
+    </releases>
+    <developer_name>Sugar Labs</developer_name>
+</component>
