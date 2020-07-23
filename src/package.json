@@ -1,21 +1,22 @@
 {
-  "name": "electron-quick-start",
-  "version": "1.0.0",
-  "description": "A minimal Electron application",
+  "name": "Musicblocks",
+  "version": "3.1.0",
+  "description": "Visual Programming Language for Exploring Math, Music, and Programming",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "patch": "./patch.sh",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
   },
-  "repository": "https://github.com/electron/electron-quick-start",
+  "repository": "https://github.com/srevinsaju/musicblocks-app",
   "keywords": [
-    "Electron",
-    "quick",
-    "start",
-    "tutorial",
-    "demo"
+    "Sugar",
+    "Education",
+    "Music"
   ],
-  "author": "GitHub",
-  "license": "CC0-1.0",
+  "author": "Srevin Saju",
+  "license": "MIT",
   "devDependencies": {
     "electron": "^9.1.1",
     "electron-builder": "^22.7.0"
@@ -23,5 +24,17 @@
   "dependencies": {
     "electron-dl": "^3.0.1",
     "electron-prompt": "^1.5.1"
+  },
+  "build": {
+    "appId": "org.sugarlabs.musicblocks",
+    "productName": "Musicblocks",
+    "copyright": "Copyright © 2020 Srevin Saju under MIT License",
+    "mac": {
+      "category": "org.sugarlabs.musicblocks"
+    },
+    "linux": {
+      "category": "Multimedia;Education;"
+    }
   }
+
 }
