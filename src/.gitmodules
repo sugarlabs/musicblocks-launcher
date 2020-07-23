@@ -1,0 +1,4 @@
+[submodule "exc"]
+	path = musicblocks
+	url = git@github.com:sugarlabs/musicblocks
+	branch = master
