@@ -7,7 +7,8 @@
     "start": "electron .",
     "patch": "./patch.sh",
     "pack": "electron-builder --dir",
-    "dist": "electron-builder"
+    "dist": "electron-builder",
+    "release": "electron-builder --publish always"
   },
   "repository": "https://github.com/srevinsaju/musicblocks-app",
   "keywords": [

@@ -20,7 +20,7 @@ jobs:
       - run: npm i
       - run: git clone https://github.com/sugarlabs/musicblocks
       - run: sh ./patch.sh
-      - run: npm run dist
+      - run: npm run release
         env: 
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: |
@@ -55,7 +55,7 @@ jobs:
 
 
       - run: sh ./patch.sh
-      - run: npm run dist
+      - run: npm run release
         env: 
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -84,7 +84,7 @@ jobs:
         run: gsed -i 's/sed/gsed/g' patch.sh
 
       - run: sh ./patch.sh
-      - run: npm run dist
+      - run: npm run release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: |
