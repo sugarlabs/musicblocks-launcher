@@ -23,8 +23,8 @@
                 {
                     "type": "git",
                     "url": "https://github.com/sugarlabs/musicblocks-launcher",
-                    "tag": "v1.0",
-                    "commit": "f281ee6fc6563706094f623665631ee049d5c3fd",
+                    "tag": "v1.0.1",
+                    "commit": "7bbabd99b691593ed575ea7e81af8108ff7e28b1",
                     "dest": "launcher"
                 }
             ]
