@@ -17,11 +17,17 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 12
-      - run: sudo snap install snapcraft --classic
+      - name: Snap Configure
+        env:
+          SNAP_TOKEN: ${{ secrets.SNAPCRAFT_TOKEN }}
+        run: |
+          sudo snap install snapcraft --classic
+          echo $SNAP_TOKEN | snapcraft login --with -
+          
       - run: npm i
       - run: git clone https://github.com/sugarlabs/musicblocks
       - run: sh ./patch.sh
-      - run: npx electron-builder --linux appimage
+      - run: npx electron-builder --linux appimage --publish always
         env: 
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     
@@ -39,13 +45,24 @@ jobs:
           ls 
           mv Musicblocks*.AppImage appimage/.
           cd ..
-
+    
+      - run: npx electron-builder --linux snap --publish always
+      - name: move snap
+        run: |
+          mkdir -p dist/snap
+          mv dist/*.snap dist/snap/.
 
       - name: Upload Appimage
         uses: actions/upload-artifact@v1.0.0
         with:
           name: Musicblocks-continuous-x86_64.AppImage
           path: 'dist/appimage/'
+      
+      - name: Upload Snap
+        uses: actions/upload-artifact@v1.0.0
+        with:
+          name: Musicblocks-continuous-x86_64.snap
+          path: 'dist/snap/'
       
 
   windows:
