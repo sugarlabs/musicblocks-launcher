@@ -16,7 +16,7 @@
     "Education",
     "Music"
   ],
-  "author": "Srevin Saju",
+  "author": "Srevin Saju <srevinsaju@sugarlabs.org>",
   "license": "MIT",
   "devDependencies": {
     "electron": "^9.1.1",
