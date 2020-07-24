@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 import gi
 import os
 
@@ -9,8 +10,8 @@ from gi.repository import WebKit2
 WebKit2.WebView.__gtype__
 WebKit2.Settings.__gtype__
 
-SCRIPT_PATH = os.path.dirname(os.path.realpath(__file__))
-@Gtk.Template(filename=os.path.join(SCRIPT_PATH, 'webview.ui'))
+SCRIPT_PATH = os.path.join(os.getenv('DATA_PATH'), 'musicblocks')
+@Gtk.Template(filename=os.path.join(SCRIPT_PATH, 'org.sugarlabs.Musicblocks.ui.ui'))
 class MyWindow(Gtk.Window):
     __gtype_name__ = "MyWindow"
     
@@ -24,7 +25,8 @@ class MyWindow(Gtk.Window):
         
 win = MyWindow()
 win.set_title('Music Blocks')
-win.view.load_uri('file:///app/bin/index.html')
+URI = 'file://' + os.path.join(SCRIPT_PATH, 'index.html')
+win.view.load_uri(URI)
 win.connect("destroy", Gtk.main_quit)
 win.show_all()
 Gtk.main()
