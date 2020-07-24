@@ -15,8 +15,8 @@ $ flatpak install flathub org.gnome.Platform//3.36 org.gnome.Sdk//3.36
 2. Build and install the application:
 
 ```
-$ flatpak-builder --force-clean --repo=repo build org.sugarlabs.Musicblocks.json
-$ flatpak build-bundle repo musicblocks.flatpak org.sugarlabs.Musicblocks
+$ flatpak-builder --force-clean --repo=repo build org.sugarlabs.MusicBlocks.json
+$ flatpak build-bundle repo musicblocks.flatpak org.sugarlabs.MusicBlocks
 $ flatpak install musicblocks.flatpak
 ```
 
@@ -24,11 +24,11 @@ $ flatpak install musicblocks.flatpak
 
 You can either launch Music Blocks from the applications menu or run it directly from the command line:
 ```
-$ flatpak run org.sugarlabs.Musicblocks
+$ flatpak run org.sugarlabs.MusicBlocks
 ```
 
 ### Adding to the Launcher
 To add screenshots:
 * Screenshots must be generally 16x9 and no larger than 1600px by 900px.
-* Add the screenshot to `org.sugarlabs.Musicblocks.appdata.xml`.
+* Add the screenshot to `org.sugarlabs.MusicBlocks.appdata.xml`.
 * Screenshots should follow [AppStream specifications](https://www.freedesktop.org/software/appstream/docs/sect-Metadata-Application.html#tag-dapp-screenshots).

@@ -2,6 +2,6 @@
 Name=Music Blocks
 Exec=launcher
 Type=Application
-Icon=org.sugarlabs.Musicblocks
+Icon=org.sugarlabs.MusicBlocks
 Categories=Education;ComputerScience;Art;Music;
 MimeType=text/html;application/x-tb

@@ -8,10 +8,10 @@ setup(name='Music Blocks Launcher',
     author="Christopher Liu",
     author_email="christopherliu@sorcero.com",
     data_files=[
-        ('share/metainfo', ['launcher/data/org.sugarlabs.Musicblocks.appdata.xml']),
-        ('share/icons/hicolor/48x48/apps', ['launcher/data/org.sugarlabs.Musicblocks.svg']),
-        ('share/applications', ['launcher/data/org.sugarlabs.Musicblocks.desktop']),
-        ('share/musicblocks', ['launcher/data/org.sugarlabs.Musicblocks.ui']),
-        ('bin', ['launcher/launcher'])
+        ('share/metainfo', ['data/org.sugarlabs.MusicBlocks.appdata.xml']),
+        ('share/icons/hicolor/48x48/apps', ['data/org.sugarlabs.MusicBlocks.svg']),
+        ('share/applications', ['data/org.sugarlabs.MusicBlocks.desktop']),
+        ('share/musicblocks', ['data/org.sugarlabs.MusicBlocks.ui']),
+        ('bin', ['launcher'])
         ]
     )

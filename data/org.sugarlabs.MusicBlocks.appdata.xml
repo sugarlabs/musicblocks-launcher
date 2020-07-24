@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component>
-    <id>org.sugarlabs.Musicblocks</id>
+    <id>org.sugarlabs.MusicBlocks</id>
     <name>Music Blocks</name>
     <summary>A collection of tools for exploring fundamental musical concepts in a fun way.</summary>
     <url type="homepage">https://github.com/sugarlabs/musicblocks/blob/master/README.md</url>
@@ -11,7 +11,7 @@
         <category>Art</category>
         <category>Music</category>
     </categories>
-    <launchable type="desktop-id">org.sugarlabs.Musicblocks.desktop</launchable>
+    <launchable type="desktop-id">org.sugarlabs.MusicBlocks.desktop</launchable>
     <screenshots>
         <screenshot type="default">
             <image>https://github.com/Clue88/musicblocks-launcher/blob/master/screenshot-1.png?raw=true</image>
