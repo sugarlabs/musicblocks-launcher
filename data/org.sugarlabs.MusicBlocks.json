@@ -9,15 +9,14 @@
         "--socket=wayland",
         "--socket=fallback-x11",
         "--socket=pulseaudio",
-        "--env=DATA_PATH=/app/share",
-        "--env=SCRIPTS_PATH=/app/bin"
+        "--env=MUSICBLOCKS_PATH=/app/share/musicblocks"
     ],
     "modules": [
         {
             "name": "launcher",
             "buildsystem": "simple",
             "build-commands": [
-                "python3 launcher/setup.py install --prefix=${FLATPAK_DEST}"
+                "python3 setup.py install --prefix=${FLATPAK_DEST}"
             ],
             "sources": [
                 {
