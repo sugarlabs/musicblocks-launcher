@@ -51,6 +51,18 @@ jobs:
         run: |
           mkdir -p dist/snap
           mv dist/*.snap dist/snap/.
+      
+      - run: npx electron-builder --linux deb --publish always
+      - name: move deb
+        run: |
+          mkdir -p dist/deb
+          mv dist/*.deb dist/deb/.
+
+      - name: Upload Debian
+        uses: actions/upload-artifact@v1.0.0
+        with:
+          name: Musicblocks-continuous-x86_64.AppImage
+          path: 'dist/deb/'
 
       - name: Upload Appimage
         uses: actions/upload-artifact@v1.0.0
