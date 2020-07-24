@@ -17,15 +17,29 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 12
+      - run: sudo snap install snapcraft --classic
       - run: npm i
       - run: git clone https://github.com/sugarlabs/musicblocks
       - run: sh ./patch.sh
-      - run: npm run release
+      - run: npx electron-builder --linux appimage
         env: 
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - run: |
+    
+      - name: Patch AppImage
+        run: |
           mkdir -p dist/appimage
-          mv dist/*.AppImage dist/appimage/.
+          cd dist/
+          ./*.AppImage --appimage-extract
+          cp linux-unpacked/resources/app.asar squashfs-root/resources/.
+          wget https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage
+          chmod +x appimagetool-x86_64.AppImage
+          mv squashfs-root AppDir
+          rm Musicblocks*.AppImage
+          ./appimagetool-x86_64.AppImage --comp gzip AppDir -n
+          ls 
+          mv Musicblocks*.AppImage appimage/.
+          cd ..
+
 
       - name: Upload Appimage
         uses: actions/upload-artifact@v1.0.0
@@ -33,15 +47,6 @@ jobs:
           name: Musicblocks-continuous-x86_64.AppImage
           path: 'dist/appimage/'
       
-      - run: |
-          mkdir -p dist/snap
-          mv dist/*.snap dist/snap/.
-
-      - name: Upload Snap
-        uses: actions/upload-artifact@v1.0.0
-        with:
-          name: Musicblocks_3.1.0_amd64.snap
-          path: 'dist/snap/'
 
   windows:
     runs-on: windows-latest
