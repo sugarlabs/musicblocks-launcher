@@ -4,3 +4,4 @@ Exec=launcher
 Type=Application
 Icon=org.sugarlabs.Musicblocks
 Categories=Education;ComputerScience;Art;Music;
+MimeType=text/html;application/x-tb
