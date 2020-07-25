@@ -46,7 +46,7 @@ jobs:
           mv Musicblocks*.AppImage appimage/.
           cd ..
     
-      - run: npx electron-builder --linux snap --publish always
+      - run: npx electron-builder --linux snap --publish never
       - name: move snap
         run: |
           mkdir -p dist/snap
