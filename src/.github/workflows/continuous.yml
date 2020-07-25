@@ -27,9 +27,7 @@ jobs:
       - run: npm i
       - run: git clone https://github.com/sugarlabs/musicblocks
       - run: sh ./patch.sh
-      - run: npx electron-builder --linux appimage --publish always
-        env: 
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - run: npx electron-builder --linux appimage --publish never
     
       - name: Patch AppImage
         run: |
@@ -46,13 +44,19 @@ jobs:
           mv Musicblocks*.AppImage appimage/.
           cd ..
     
-      - run: npx electron-builder --linux snap -c.snap.publish=github
+      - run: npx electron-builder --linux snap --publish never 
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: move snap
         run: |
           mkdir -p dist/snap
           mv dist/*.snap dist/snap/.
       
-      - run: npx electron-builder --linux deb --publish always -c.deb.publish=github
+      - run: npx electron-builder --linux deb --publish never
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: move deb
         run: |
           mkdir -p dist/deb
@@ -89,7 +93,7 @@ jobs:
 
 
       - run: sh ./patch.sh
-      - run: npm run release
+      - run: npx electron-builder --win --publish never
         env: 
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -118,7 +122,7 @@ jobs:
         run: gsed -i 's/sed/gsed/g' patch.sh
 
       - run: sh ./patch.sh
-      - run: npm run release
+      - run: npx electron-builder --mac --publish never
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: |
@@ -131,4 +135,41 @@ jobs:
           name: Musicblocks-continuous-x86_64.dmg
           path: 'dist/dmg/'
 
-      
+  Release:
+    needs: [macos, windows, linux]
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        version: [3.8]
+
+    steps:
+    - uses: actions/download-artifact@v1
+      with:
+        name: Musicblocks-continuous-x86_64.dmg
+    - uses: actions/download-artifact@v1
+      with:
+        name: Musicblocks-continuous-x86_64.exe
+    - uses: actions/download-artifact@v1
+      with:
+        name: Musicblocks-continuous-x86_64.snap
+    - uses: actions/download-artifact@v1
+      with:
+        name: Musicblocks-continuous-x86_64.AppImage
+    - uses: actions/download-artifact@v1
+      with:
+        name: Musicblocks-continuous-x86_64.deb 
+
+    - name: Release
+      uses: marvinpinto/action-automatic-releases@latest
+      if: github.ref == 'refs/heads/master'
+      with:
+        automatic_release_tag: continuous
+        title: continuous
+        files: |
+          Musicblocks-continuous-x86_64.dmg
+          Musicblocks-continuous-x86_64.exe
+          Musicblocks-continuous-x86_64.snap
+          Musicblocks-continuous-x86_64.AppImage
+          Musicblocks-continuous-x86_64.deb
+
+        repo_token: ${{ secrets.GITHUB_TOKEN }} 
