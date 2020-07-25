@@ -1,0 +1,46 @@
+name: musicblocks
+version: '3.1.0'
+summary: Visual Programming Language for Exploring Math, Music, and Programming
+description: |
+ Visual Programming Language for Exploring Math, Music, and Programming
+
+grade: stable
+confinement: strict
+
+parts:
+  musicblocks:
+    plugin: dump
+    source: https://github.com/srevinsaju/musicblocks-app/releases/download/v3.1.0/Musicblocks_3.1.0_amd64.deb
+    source-type: deb
+    after:
+      - desktop-gtk3
+    stage-packages:
+      - libasound2
+      - libgconf2-4
+      - libnotify4
+      - libnspr4
+      - libnss3
+      - libpcre3
+      - libpulse0
+      - libxss1
+      - libxtst6
+
+apps:
+  musicblocks:
+    # Correct the TMPDIR path for Chromium Framework/Electron to ensure
+    # libappindicator has readable resources.
+    command: env TMPDIR=$XDG_RUNTIME_DIR PATH=/usr/local/bin:${PATH} ${SNAP}/bin/desktop-launch $SNAP/musicblocks
+    destkop: usr/share/applications/musicblocks.desktop
+
+plugs:
+  desktop:
+  desktop-legacy:
+  x11:
+  unity7:
+  wayland:
+  opengl:
+  home:
+  gsettings:
+  browser-support:
+  pulseaudio:
+  network:
