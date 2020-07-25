@@ -7,8 +7,35 @@ description: |
 grade: stable
 confinement: strict
 base: core18
+architectures:
+- build-on: amd64
 
 parts:
+  desktop-gtk3:
+    build-packages:
+    - build-essential
+    - libgtk-3-dev
+    make-parameters:
+    - FLAVOR=gtk3
+    plugin: make
+    source: https://github.com/ubuntu/snapcraft-desktop-helpers.git
+    source-subdir: gtk
+    stage-packages:
+    - libxkbcommon0
+    - ttf-ubuntu-font-family
+    - dmz-cursor-theme
+    - light-themes
+    - adwaita-icon-theme
+    - gnome-themes-standard
+    - shared-mime-info
+    - libgtk-3-0
+    - libgdk-pixbuf2.0-0
+    - libglib2.0-bin
+    - libgtk-3-bin
+    - unity-gtk3-module
+    - libappindicator3-1
+    - locales-all
+
   musicblocks:
     plugin: dump
     source: https://github.com/srevinsaju/musicblocks-app/releases/download/v3.1.0/Musicblocks_3.1.0_amd64.deb
