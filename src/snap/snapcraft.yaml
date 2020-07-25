@@ -6,6 +6,7 @@ description: |
 
 grade: stable
 confinement: strict
+base: core18
 
 parts:
   musicblocks:
@@ -27,10 +28,11 @@ parts:
 
 apps:
   musicblocks:
-    # Correct the TMPDIR path for Chromium Framework/Electron to ensure
-    # libappindicator has readable resources.
-    command: env TMPDIR=$XDG_RUNTIME_DIR PATH=/usr/local/bin:${PATH} ${SNAP}/bin/desktop-launch $SNAP/musicblocks
-    destkop: usr/share/applications/musicblocks.desktop
+    desktop: usr/share/applications/musicblocks.desktop
+    command: musicblocks
+    command-chain: &command-chain-common
+      - bin/desktop-launch
+      - musicblocks
 
 plugs:
   desktop:
