@@ -38,7 +38,7 @@ parts:
 
   musicblocks:
     plugin: dump
-    source: https://github.com/srevinsaju/musicblocks-app/releases/download/v3.1.0/Musicblocks_3.1.0_amd64.deb
+    source: https://github.com/srevinsaju/musicblocks-app/releases/download/continuous/Musicblocks_3.1.0_amd64.deb 
     source-type: deb
     after:
       - desktop-gtk3
