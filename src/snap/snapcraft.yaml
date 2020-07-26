@@ -52,14 +52,17 @@ parts:
       - libpulse0
       - libxss1
       - libxtst6
+      - libdrm2
+      - libgbm1
+      - libwayland-server0
+      - libx11-xcb1
+      - libxcb-dri3-0
+      - libgtk2.0-0
 
 apps:
   musicblocks:
     desktop: usr/share/applications/musicblocks.desktop
-    command: musicblocks
-    command-chain: &command-chain-common
-      - bin/desktop-launch
-      - musicblocks
+    command: env TMPDIR=$XDG_RUNTIME_DIR PATH=/usr/local/bin:${PATH} ${SNAP}/bin/desktop-launch $SNAP/opt/Musicblocks/musicblocks --no-sandbox
 
 plugs:
   desktop:
