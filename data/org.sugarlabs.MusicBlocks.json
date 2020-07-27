@@ -30,7 +30,7 @@
             "name": "musicblocks",
             "buildsystem": "simple",
             "build-commands": [
-                "mv musicblocks /app/share/"
+                "cp -ra musicblocks/* /app/share/musicblocks"
             ],
             "sources": [
                 {
