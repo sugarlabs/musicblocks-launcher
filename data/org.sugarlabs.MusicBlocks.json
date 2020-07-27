@@ -9,6 +9,7 @@
         "--socket=wayland",
         "--socket=fallback-x11",
         "--socket=pulseaudio",
+        "--device=dri",
         "--env=MUSICBLOCKS_PATH=/app/share/musicblocks"
     ],
     "modules": [
