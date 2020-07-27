@@ -8,6 +8,7 @@
     <property name="enable_accelerated_2d_canvas">True</property>
     <property name="allow_file_access_from_file_urls">True</property>
     <property name="allow_universal_access_from_file_urls">True</property>
+    <property name="enable_write_console_messages_to_stdout">True</property>
   </object>
   <template class="MyWindow" parent="GtkWindow">
     <property name="can_focus">False</property>
