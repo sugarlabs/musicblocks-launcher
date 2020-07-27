@@ -10,6 +10,7 @@
         "--socket=fallback-x11",
         "--socket=pulseaudio",
         "--device=dri",
+        "--filesystem=xdg-download",
         "--env=MUSICBLOCKS_PATH=/app/share/musicblocks"
     ],
     "modules": [
