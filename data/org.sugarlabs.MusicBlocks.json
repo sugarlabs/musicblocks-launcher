@@ -32,6 +32,13 @@
             "name": "musicblocks",
             "buildsystem": "simple",
             "build-commands": [
+                "rm -rf musicblocks/po",
+                "rm -rf musicblocks/usermanual",
+                "rm -rf musicblocks/documentation*",
+                "rm -rf musicblocks/guide*",
+                "rm -rf musicblocks/charts",
+                "rm -rf musicblocks/mouse-art",
+                "rm -rf musicblocks/screenshots",
                 "cp -ra musicblocks/* /app/share/musicblocks"
             ],
             "sources": [
@@ -42,15 +49,6 @@
                     "commit": "5a0e5fc244acd8fa806f78a937165cc2a528e68e",
                     "dest": "musicblocks"
                 }
-            ],
-            "cleanup": [
-                "musicblocks/po",
-                "musicblocks/usermanual",
-                "musicblocks/documentation*",
-                "musicblocks/guide*",
-                "musicblocks/charts",
-                "musicblocks/mouse-art",
-                "musicblocks/screenshots"
             ]
         }
     ]
