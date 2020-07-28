@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<component>
+<component type="desktop-application">
     <id>org.sugarlabs.MusicBlocks</id>
     <name>Music Blocks</name>
     <summary>A collection of tools for exploring fundamental musical concepts in a fun way.</summary>
@@ -17,6 +17,7 @@
             <image>https://github.com/Clue88/musicblocks-launcher/blob/master/screenshot-1.png?raw=true</image>
         </screenshot>
     </screenshots>
+    <content_rating type="oars-1.1" />
 
     <releases>
         <release version="3.1" date="2020-05-25" />
