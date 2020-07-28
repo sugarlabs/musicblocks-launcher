@@ -7,7 +7,7 @@ setup(name='Music Blocks Launcher',
     url="https://github.com/sugarlabs/musicblocks-launcher",
     data_files=[
         ('share/metainfo', ['data/org.sugarlabs.MusicBlocks.appdata.xml']),
-        ('share/icons/hicolor/48x48/apps', ['data/org.sugarlabs.MusicBlocks.svg']),
+        ('share/icons/hicolor/128x128/apps', ['data/org.sugarlabs.MusicBlocks.svg']),
         ('share/applications', ['data/org.sugarlabs.MusicBlocks.desktop']),
         ('share/musicblocks', ['data/org.sugarlabs.MusicBlocks.ui']),
         ('bin', ['launcher'])
