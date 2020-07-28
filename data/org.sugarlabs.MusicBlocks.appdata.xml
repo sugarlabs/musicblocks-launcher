@@ -11,6 +11,11 @@
         <category>Art</category>
         <category>Music</category>
     </categories>
+    <description>
+        <p>“All musicians are subconsciously mathematicians” – Monk</p>
+        <p>“Music is a hidden arithmetic exercise of the soul, which does not know that it is counting.” ~ Leibniz</p>
+        <p>Music Blocks is a programming language and collection of manipulative tools for exploring musical and mathematical concepts in an integrative and fun way.</p>
+    </description>
     <launchable type="desktop-id">org.sugarlabs.MusicBlocks.desktop</launchable>
     <screenshots>
         <screenshot type="default">
