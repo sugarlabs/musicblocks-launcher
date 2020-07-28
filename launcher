@@ -20,9 +20,30 @@ class MyWindow(Gtk.Window):
     
     def __init__(self):
         super(MyWindow, self).__init__()
-        print(self.view)
+        self.context = self.view.get_context()
+        self.context.connect("download-started", self.on_download_started)
+    
+    def on_download_started(self, context, download):
+        print ("Download started:", download.get_request().props.uri)
+        download.connect("decide-destination", self.on_decide_destination)
         
+    def on_decide_destination(self, download, suggested_filename):
+        print ("Decide destination:", suggested_filename)
         
+        dialog = Gtk.FileChooserNative(title="Save File",
+                                       action=Gtk.FileChooserAction.SAVE)
+        dialog.set_current_name (suggested_filename)
+        
+        res = dialog.run()
+        
+        if (res == Gtk.ResponseType.ACCEPT):
+            destination = 'file://' + dialog.get_filename()
+            print (destination)
+            download.set_destination(destination)
+        
+        dialog.destroy()
+
+
 win = MyWindow()
 win.set_title('Music Blocks')
 URI = 'file://' + os.path.join(MUSICBLOCKS_PATH, 'index.html')
