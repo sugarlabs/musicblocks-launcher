@@ -47,6 +47,10 @@
                     "tag": "v3.1",
                     "commit": "5a0e5fc244acd8fa806f78a937165cc2a528e68e",
                     "dest": "musicblocks"
+                },
+                {
+                    "type": "patch",
+                    "path": "save-interface.patch"
                 }
             ]
         }
