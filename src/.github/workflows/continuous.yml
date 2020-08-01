@@ -42,6 +42,7 @@ jobs:
           ./appimagetool-x86_64.AppImage --comp gzip AppDir -n
           ls 
           mv Musicblocks*.AppImage appimage/.
+          chmod +x appimage/*.AppImage
           cd ..
     
       - run: npx electron-builder --linux snap --publish never 
@@ -158,6 +159,7 @@ jobs:
     - uses: actions/download-artifact@v1
       with:
         name: Musicblocks-continuous-x86_64.deb 
+    
 
     - name: Release
       uses: marvinpinto/action-automatic-releases@latest
