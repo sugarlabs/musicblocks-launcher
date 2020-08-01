@@ -37,10 +37,10 @@ jobs:
           cp linux-unpacked/resources/app.asar squashfs-root/resources/.
           wget https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage
           chmod +x appimagetool-x86_64.AppImage
-          mv squashfs-root AppDir
           rm Musicblocks*.AppImage
-          ./appimagetool-x86_64.AppImage --comp gzip AppDir -n
+          ./appimagetool-x86_64.AppImage --comp gzip squashfs-root -n
           ls 
+          rm -rf squashfs-root
           mv Musicblocks*.AppImage appimage/.
           chmod +x appimage/*.AppImage
           cd ..
