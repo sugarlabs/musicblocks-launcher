@@ -37,8 +37,8 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://nodejs.org/dist/v8.11.2/node-v8.11.2.tar.xz",
-                    "sha256": "539946c0381809576bed07424a35fc1740d52f4bd56305d6278d9e76c88f4979"
+                    "url": "https://nodejs.org/dist/v14.7.0/node-v14.7.0.tar.xz",
+                    "sha256": "ca2f1c63f3f2bf22247d7386bfc31e0295caa953f39f7079210170a886288e6f"
                 }
             ]
         },
@@ -104,6 +104,14 @@
                     "tag": "continuous",
                     "commit": "844eabe9b9e668f9f645a9af49517e83cb738d80",
                     "dest": "main"
+                },
+                {
+                    "type": "patch",
+                    "path": "electron-app.patch"
+                },
+                {
+                    "type": "file",
+                    "path": "generated-sources.json"
                 },
                 {
                     "type": "script",
