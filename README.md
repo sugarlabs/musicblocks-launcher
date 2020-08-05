@@ -16,7 +16,7 @@ $ flatpak install flathub org.gnome.Platform//3.36 org.gnome.Sdk//3.36
 
 ```
 $ flatpak-builder --force-clean --repo=repo build org.sugarlabs.MusicBlocks.json
-$ flatpak build-bundle repo musicblocks.flatpak org.sugarlabs.MusicBlocks
+$ flatpak build-bundle repo musicblocks.flatpak org.sugarlabs.MusicBlocks stable
 $ flatpak install musicblocks.flatpak
 ```
 

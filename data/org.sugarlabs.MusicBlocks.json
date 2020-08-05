@@ -68,6 +68,7 @@
                 "rm -rf musicblocks/mouse-art",
                 "rm -rf musicblocks/screenshots",
                 "rm musicblocks/package*",
+                "mkdir /app/share/musicblocks",
                 "cp -ra musicblocks/* /app/share/musicblocks"
             ],
             "sources": [
@@ -88,12 +89,13 @@
             "name": "electron-app",
             "build-options": {
                 "env": {
-                    "electron_config_cache": "/run/build/electron-app/npm-cache"
-                }
+                    "electron_config_cache": "/run/build/electron-app/flatpak-node/npm-cache"
+                },
+                "build-args": [ "--share=network" ]
             },
             "buildsystem": "simple",
             "build-commands": [
-                "npm install --prefix=main --offline --cache/run/build/electron-app/npm-cache/",
+                "npm install --prefix=main --offline --cache=/run/build/electron-app/flatpak-node/npm-cache/",
                 "cp -ra main/* /app/share/musicblocks/",
                 "install run.sh /app/bin/"
             ],
@@ -109,10 +111,7 @@
                     "type": "patch",
                     "path": "electron-app.patch"
                 },
-                {
-                    "type": "file",
-                    "path": "generated-sources.json"
-                },
+                "generated-sources.json",
                 {
                     "type": "script",
                     "dest-filename": "run.sh",
