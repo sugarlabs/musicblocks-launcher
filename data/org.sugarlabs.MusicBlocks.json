@@ -13,6 +13,7 @@
         "--socket=x11",
         "--socket=pulseaudio",
         "--device=dri",
+        "--filesystem=home",
         "--env=MUSICBLOCKS_PATH=/app/share/musicblocks"
     ],
     "build-options" : {
