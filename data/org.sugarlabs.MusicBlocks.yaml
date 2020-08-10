@@ -1,4 +1,4 @@
-app-id: org.sugarlabs.Musicblocks
+app-id: org.sugarlabs.MusicBlocks
 branch: stable
 runtime: org.freedesktop.Platform
 runtime-version: '19.08'
