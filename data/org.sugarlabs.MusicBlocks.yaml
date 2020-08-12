@@ -112,3 +112,120 @@ modules:
         commands:
           - 'export PATH=$PATH:/app/node/bin'
           - 'npm start --prefix=/app/share/musicblocks'
+
+app-id: org.sugarlabs.MusicBlocks
+branch: stable
+runtime: org.freedesktop.Platform
+runtime-version: '19.08'
+sdk: org.freedesktop.Sdk
+# Use the Electron 2 BaseApp, which adds several common libraries we'll need.
+base: org.electronjs.Electron2.BaseApp
+base-version: '19.08'
+# Add the Node 10 SDK extension.
+sdk-extensions:
+  - org.freedesktop.Sdk.Extension.node10
+# Electron doesn't use a traditional locale format so separate-locales is useless.
+separate-locales: false
+command: musicblocks-start
+finish-args:
+  # These two lines add Xorg access for graphics.
+  - '--share=ipc'
+  - '--socket=x11'
+  # Sound access.
+  - '--socket=pulseaudio'
+  # Network access.
+  - '--share=network'
+  # GPU acceleration.
+  - '--device=dri'
+  # If you need to access the filesystem, also add:
+  - '--filesystem=home'
+  # Path to the musicblocks app.
+  - '--env=MUSICBLOCKS_PATH=/app/share/musicblocks'
+modules:
+  # First step is to install Node to /app/node, that way it can be accessible outside of the sdk
+  # environment. install-sdk.sh is used because install.sh omits npm.
+  # (This does not need to be done for electron-builder, see
+  # electron-webpack-quick-start's build.electron.webpack.ElectronWebpackQuickStart.yaml for an
+  # explanation.)
+  - name: node
+    buildsystem: simple
+    build-commands:
+      - '/usr/lib/sdk/node10/install-sdk.sh'
+
+  # Next is musicblocks-launcher, which has all of the app metadata, screenshots, etc.
+  - name: mb-launcher
+    buildsystem: simple
+    build-commands:
+      # Install all of the app data in the appropriate locations.
+      - 'python3 setup.py install --prefix=${FLATPAK_DEST}'
+      - install -d /app/share/appdata
+      - mv /app/share/metadata/org.sugarlabs.MusicBlocks.appdata.xml /app/share/appdata
+    sources:
+      - type: git
+        path: '..'
+        branch: 'HEAD'
+
+  # Next is the actual musicblocks code.
+  - name: mb-app
+    buildsystem: simple
+    build-commands:
+      # Remove unecessary documentation files.
+      - 'rm -rf musicblocks/po'
+      - 'rm -rf musicblocks/usermanual'
+      - 'rm -rf musicblocks/documentation*'
+      - 'rm -rf musicblocks/guide*'
+      - 'rm -rf musicblocks/charts'
+      - 'rm -rf musicblocks/mouse-art'
+      - 'rm -rf musicblocks/screenshots'
+      - 'rm musicblocks/package*'
+      # Copy the app files to /app/share/musicblocks.
+      - 'mkdir /app/share/musicblocks'
+      - 'cp -ra musicblocks/* /app/share/musicblocks'
+    sources:
+      - type: git
+        url: 'https://github.com/sugarlabs/musicblocks'
+        tag: 'v3.2'
+        commit: '010d7f90cd68ac25c3c07886f1f5955ef2f196dc'
+        dest: 'musicblocks'
+      - type: patch
+        path: 'save-interface.patch'
+
+  # Lastly, the electron module.
+  - name: mb-electron
+    buildsystem: simple
+    build-options:
+      # Add the node bin directory.
+      append-path: /usr/lib/sdk/node10/bin
+      env:
+        # Set the Electron cache directory.
+        # (The directory format is: /run/build/MODULE_NAME/flatpak-node/electron-cache)
+        electron_config_cache: '/run/build/mb-electron/flatpak-node/electron-cache'
+        # Sets the directory where Node is located so way npm won't download the headers.
+        npm_config_nodedir: '/usr/lib/sdk/node10'
+    build-commands:
+      # Install the packages from our offline cache.
+      # --prefix= is the path to our subdirectory (see the electron-quick-start source below).
+      # If you were using Yarn here, you'd use the yarn config and yarn --offline commands
+      # as shown in the webpack-quick-start demo. The need for --prefix= is dependent on how
+      # this project is run, not on the package manager.
+      - 'ELECTRON_SKIP_BINARY_DOWNLOAD=1 npm install --prefix=main --offline --cache=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/npm-cache'
+      # Copy the electron app to /app/share/musicblocks.
+      - 'cp -ra main/* /app/share/musicblocks'
+      # Install the wrapper script to start the program.
+      - 'install -Dm 755 musicblocks-start.sh /app/bin/musicblocks-start'
+    sources:
+      - type: git
+        url: 'https://github.com/srevinsaju/musicblocks-app'
+        tag: 'continuous'
+        commit: '844eabe9b9e668f9f645a9af49517e83cb738d80'
+        dest: 'main'
+      - type: patch
+        path: 'electron-app.patch'
+      # Add the flatpak-node-generator generated sources.
+      - generated-sources.json
+      # Our runner script.
+      - type: script
+        dest-filename: musicblocks-start.sh
+        commands:
+          - 'export PATH=$PATH:/app/node/bin'
+          - 'npm start --prefix=/app/share/musicblocks'
