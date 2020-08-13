@@ -17,7 +17,7 @@ else:
         zipObj.extractall('build')
         os.rename('build/MusicBlocks-arm', 'build/MusicBlocks')
 
-
+os.chmod('build/MusicBlocks', 0o755)
 
 setup(name='Music Blocks Launcher',
     version='1.1.1',
