@@ -29,6 +29,7 @@ modules:
     buildsystem: simple
     build-commands:
       - install -Dm 755 musicblocks /app/bin/musicblocks
+      - chmod +x /app/bin/MusicBlocks
     sources:
       - type: script
         dest-filename: musicblocks
