@@ -6,13 +6,13 @@ sdk: org.freedesktop.Sdk
 separate-locales: false
 command: musicblocks
 finish-args:
-  '--share=ipc'
-  '--socket=x11'
-  '--socket=pulseaudio'
-  '--share=network'
-  '--device=dri'
-  '--filesystem=home'
-  '--env=MUSICBLOCKS_PATH=/app/share/musicblocks'
+  - '--share=ipc'
+  - '--socket=x11'
+  - '--socket=pulseaudio'
+  - '--share=network'
+  - '--device=dri'
+  - '--filesystem=home'
+  - '--env=MUSICBLOCKS_PATH=/app/share/musicblocks'
 modules:
   - name: mb-data
     buildsystem: simple
@@ -28,28 +28,8 @@ modules:
   - name: musicblocks
     buildsystem: simple
     build-commands:
-      - mv MusicBlocks.sh /app/bin/MusicBlocks
+      - install -Dm 755 musicblocks /app/bin/musicblocks
     sources:
-      - type: file
-        path: MusicBlocks-aarch64
-        dest-filename: 'MusicBlocks.sh'
-        only-arches:
-          aarch64
-      - type: file
-        path: MusicBlocks-arm
-        dest-filename: 'MusicBlocks.sh'
-        only-arches:
-          arm
-      - type: file
-        path: MusicBlocks-i386
-        dest-filename: 'MusicBlocks.sh'
-        only-arches:
-          i386
-      - type: file
-        path: MusicBlocks-x86_64
-        dest-filename: 'MusicBlocks.sh'
-        only-arches:
-          x86_64
       - type: script
         dest-filename: musicblocks
         commands:
