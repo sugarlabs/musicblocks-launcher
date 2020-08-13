@@ -8,14 +8,15 @@ if arch == 'aarch64':
     with ZipFile('build/MusicBlocks-aarch64.zip', 'r') as zipObj:
         zipObj.extractall('build')
         os.rename('build/MusicBlocks-aarch64', 'build/MusicBlocks')
-elif arch == 'arm':
-    with ZipFile('build/MusicBlocks-arm.zip', 'r') as zipObj:
-        zipObj.extractall('build')
-        os.rename('build/MusicBlocks-arm', 'build/MusicBlocks')
 elif arch == 'x86_64':
     with ZipFile('build/MusicBlocks-x86_64.zip', 'r') as zipObj:
         zipObj.extractall('build')
         os.rename('build/MusicBlocks-x86_64', 'build/MusicBlocks')
+else:
+    with ZipFile('build/MusicBlocks-arm.zip', 'r') as zipObj:
+        zipObj.extractall('build')
+        os.rename('build/MusicBlocks-arm', 'build/MusicBlocks')
+
 
 
 setup(name='Music Blocks Launcher',
