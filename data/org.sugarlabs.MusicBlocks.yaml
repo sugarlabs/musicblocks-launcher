@@ -70,4 +70,4 @@ modules:
       - type: script
         dest-filename: musicblocks-run
         commands:
-          - zypak-wrapper /app/bin/musicblocks/musicblocks "$@"
+          - exec /app/bin/musicblocks/musicblocks "$@" --no-sandbox
