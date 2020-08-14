@@ -8,7 +8,6 @@ setup(name='Music Blocks Launcher',
     data_files=[
         ('share/metadata', ['data/org.sugarlabs.MusicBlocks.appdata.xml']),
         ('share/icons/hicolor/scalable/apps', ['data/org.sugarlabs.MusicBlocks.svg']),
-        ('share/applications', ['data/org.sugarlabs.MusicBlocks.desktop']),
-        ('bin', ['build/MusicBlocks'])
+        ('share/applications', ['data/org.sugarlabs.MusicBlocks.desktop'])
         ]
     )
