@@ -3,6 +3,8 @@ branch: stable
 runtime: org.freedesktop.Platform
 runtime-version: '19.08'
 sdk: org.freedesktop.Sdk
+base: "org.electronjs.Electron2.BaseApp"
+base-version: '19.08'
 separate-locales: false
 command: musicblocks
 finish-args:
@@ -14,16 +16,51 @@ finish-args:
   - '--filesystem=home'
   - '--env=MUSICBLOCKS_PATH=/app/share/musicblocks'
 modules:
+  - name: unappimage
+    buildsystem: simple
+    build-commands:
+      - make -C squashfs-tools -j ${FLATPAK_BUILDER_N_JOBS} install INSTALL_DIR=${FLATPAK_DEST}/bin
+    sources:
+      - type: git
+        url: https://github.com/refi64/unappimage
+        commit: d7f86f2a0d7ec3a69211125207d5f127386b849a
+  
   - name: mb-data
     buildsystem: simple
     build-commands:
       - python3 setup.py install --prefix=${FLATPAK_DEST}
+
       - install -d /app/share/appdata
       - mv /app/share/metadata/org.sugarlabs.MusicBlocks.appdata.xml /app/share/appdata
+      
+      - unappimage MusicBlocks.AppImage
+      - rm MusicBlocks.AppImage
+      - mv squashfs-root /app/bin/musicblocks
     sources:
       - type: git
         path: '..'
         branch: 'HEAD'
+      - type: file
+        dest-filename: MusicBlocks.AppImage
+        url: https://github.com/sugarlabs/musicblocks-launcher/releases/download/untagged-1993164b67dc204f461e/Music.Blocks-3.2.0-aarch64.AppImage
+        sha256: da076f57bc66f627bb278fd8c68ba11299863b43c22a759707ac0e519d27b058
+        size: 131462403
+        only-arches:
+          - aarch64
+      - type: file
+        dest-filename: MusicBlocks.AppImage
+        url: https://github.com/sugarlabs/musicblocks-launcher/releases/download/untagged-1993164b67dc204f461e/Music.Blocks-3.2.0-arm.AppImage
+        sha256: e18dc0d616bcd9c81f430563ccb181213e38c0d8af4d7367518185d90b33c08d
+        size: 117327932
+        only-arches:
+          - arm
+      - type: file
+        dest-filename: MusicBlocks.AppImage
+        url: https://github.com/sugarlabs/musicblocks-launcher/releases/download/untagged-1993164b67dc204f461e/Music.Blocks-3.2.0-x86_64.AppImage
+        sha256: fc477de76f7ffd809544b75d70185dc537eb57a2c492d066885d9faf6cb7978a
+        size: 127771772
+        only-arches:
+          - x86_64
 
   - name: musicblocks
     buildsystem: simple
@@ -33,4 +70,4 @@ modules:
       - type: script
         dest-filename: musicblocks
         commands:
-          - /app/bin/MusicBlocks
+          - zypak-wrapper /app/bin/musicblocks/musicblocks "$@"
