@@ -6,7 +6,7 @@ sdk: org.freedesktop.Sdk
 base: "org.electronjs.Electron2.BaseApp"
 base-version: '19.08'
 separate-locales: false
-command: musicblocks
+command: musicblocks-run
 finish-args:
   - '--share=ipc'
   - '--socket=x11'
@@ -65,9 +65,10 @@ modules:
   - name: musicblocks
     buildsystem: simple
     build-commands:
-      - install -Dm 755 musicblocks /app/bin/musicblocks
+      - install -Dm 755 musicblocks-run /app/bin/musicblocks-run
+      - chmod +x /app/bin/musicblocks/musicblocks
     sources:
       - type: script
-        dest-filename: musicblocks
+        dest-filename: musicblocks-run
         commands:
           - zypak-wrapper /app/bin/musicblocks/musicblocks "$@"

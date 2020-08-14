@@ -1,6 +1,6 @@
 [Desktop Entry]
 Name=Music Blocks
-Exec=musicblocks
+Exec=musicblocks-run
 Type=Application
 Icon=org.sugarlabs.MusicBlocks
 Categories=Education;ComputerScience;Art;Music;
