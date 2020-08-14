@@ -42,23 +42,23 @@ modules:
         branch: 'HEAD'
       - type: file
         dest-filename: MusicBlocks.AppImage
-        url: https://github.com/sugarlabs/musicblocks-launcher/releases/download/v1.1.1/Music.Blocks-3.2.0-aarch64.AppImage
-        sha256: da076f57bc66f627bb278fd8c68ba11299863b43c22a759707ac0e519d27b058
-        size: 131462403
+        url: https://github.com/sugarlabs/musicblocks-launcher/releases/download/v1.1.2/Music.Blocks-3.2.0-aarch64.AppImage
+        sha256: 79529206250952752dd0e2711ce26349e951478996878ce4b379b3c0299166a9
+        size: 117327933
         only-arches:
           - aarch64
       - type: file
         dest-filename: MusicBlocks.AppImage
-        url: https://github.com/sugarlabs/musicblocks-launcher/releases/download/v1.1.1/Music.Blocks-3.2.0-arm.AppImage
-        sha256: e18dc0d616bcd9c81f430563ccb181213e38c0d8af4d7367518185d90b33c08d
-        size: 117327932
+        url: https://github.com/sugarlabs/musicblocks-launcher/releases/download/v1.1.2/Music.Blocks-3.2.0-arm.AppImage
+        sha256: 8cb33655c758954b2a9f1babff93ad16cc2e65ca2a1f93c232a5c130db133de6
+        size: 131462400
         only-arches:
           - arm
       - type: file
         dest-filename: MusicBlocks.AppImage
-        url: https://github.com/sugarlabs/musicblocks-launcher/releases/download/v1.1.1/Music.Blocks-3.2.0-x86_64.AppImage
-        sha256: fc477de76f7ffd809544b75d70185dc537eb57a2c492d066885d9faf6cb7978a
-        size: 127771772
+        url: https://github.com/sugarlabs/musicblocks-launcher/releases/download/v1.1.2/Music.Blocks-3.2.0-x86_64.AppImage
+        sha256: a0956a53c8981fb5696829b81ef9a7059fa80bd86092fcbe419454c2ee351dfc
+        size: 127771791
         only-arches:
           - x86_64
 

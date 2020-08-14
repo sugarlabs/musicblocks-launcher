@@ -4,14 +4,13 @@ Music Blocks Launcher
 This repository contains the files needed to build the Flatpak application for Music Blocks.
 
 ### Installation
-1. Install `flatpak-builder`, the freedesktop runtime and SDK, the electron baseapp, and the node10 SDK extension:
+1. Install `flatpak-builder`, the freedesktop runtime and SDK, and the electron baseapp:
 
 ```
 $ flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 $ flatpak install flathub org.flatpak.Builder
 $ flatpak install flathub org.freedesktop.Platform//19.08 org.freedesktop.Sdk//19.08
 $ flatpak install flathub org.electronjs.Electron2.BaseApp
-$ flatpak install flathub org.freedesktop.Sdk.Extension.node10
 ```
 
 2. Build and install the application:
