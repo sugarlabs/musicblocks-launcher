@@ -1,0 +1,21 @@
+diff --git a/main.js b/main.js
+index 3d791c3f39c6f001b8ae92881bfefc181731c8ee..755c31a8166fa37ac1de7f7345d2e35dc1482f52 100644
+--- a/main.js
++++ b/main.js
+@@ -20,6 +20,8 @@ function createWindow () {
+   mainWindow.isElectron = true;
+   // and load the index.html of the app.
+   mainWindow.loadFile('musicblocks/index.html');
++  mainWindow.removeMenu();
++  /*
+   mainWindow.on('close', function(e){
+     var choice = require('electron').dialog.showMessageBoxSync(this,
+         {
+@@ -32,6 +34,7 @@ function createWindow () {
+          e.preventDefault();
+        }
+   });
++  */
+ 
+   // Open the DevTools.
+   // mainWindow.webContents.openDevTools()
