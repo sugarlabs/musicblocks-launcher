@@ -60,8 +60,32 @@ jobs:
           cd src
           mkdir -p dist/snap
           mv dist/*.snap dist/snap/.
-      
-      - run: npx electron-builder --linux deb --publish never
+
+      - name: Create .rpm
+        run: |
+          cd src
+          sudo apt-get -y install rpm
+          npx electron-builder --linux rpm --publish never
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: move rpm
+        run: |
+          cd src
+          mkdir -p dist/rpm
+          mv dist/*.rpm dist/rpm/.
+
+      - name: Upload RPM
+        uses: actions/upload-artifact@v1.0.0
+        with:
+          name: Musicblocks-continuous-x86_64.rpm
+          path: 'src/dist/rpm/'
+
+
+      - name: Create .deb  
+        run: |
+          cd src
+          npx electron-builder --linux deb --publish never
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -198,6 +222,9 @@ jobs:
     - uses: actions/download-artifact@v1
       with:
         name: Musicblocks-continuous-x86_64.deb 
+    - uses: actions/download-artifact@v1
+      with:
+        name: Musicblocks-continuous-x86_64.rpm 
     
 
     - name: Release
@@ -212,5 +239,5 @@ jobs:
           Musicblocks-continuous-x86_64.snap
           Musicblocks-continuous-x86_64.AppImage
           Musicblocks-continuous-x86_64.deb
-
+          Musicblocks-continuous-x86_64.rpm
         repo_token: ${{ secrets.GITHUB_TOKEN }} 
