@@ -1,0 +1,243 @@
+
+
+name: Continuous
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+
+jobs:
+  linux:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+          
+      - run: |
+          cd src
+          npm i
+      - run: |
+          cd src 
+          git clone https://github.com/sugarlabs/musicblocks
+      - run: |
+          cd src
+          sh ./patch.sh
+      - run: |
+          cd src
+          npx electron-builder --linux appimage --publish never
+    
+      - name: Patch AppImage
+        run: |
+          cd src
+          mkdir -p dist/appimage
+          cd dist/
+          ./*.AppImage --appimage-extract
+          cp linux-unpacked/resources/app.asar squashfs-root/resources/.
+          wget https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage
+          chmod +x appimagetool-x86_64.AppImage
+          rm Musicblocks*.AppImage
+          ./appimagetool-x86_64.AppImage squashfs-root -n
+          ls 
+          rm -rf squashfs-root
+          mv Musicblocks*.AppImage appimage/.
+          chmod +x appimage/*.AppImage
+          cd ..
+
+      - name: Create Snap
+        run: |
+          cd src;
+          npx electron-builder --linux snap --publish never 
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: move snap
+        run: |
+          cd src
+          mkdir -p dist/snap
+          mv dist/*.snap dist/snap/.
+
+      - name: Create .rpm
+        run: |
+          cd src
+          sudo apt-get -y install rpm
+          npx electron-builder --linux rpm --publish never
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: move rpm
+        run: |
+          cd src
+          mkdir -p dist/rpm
+          mv dist/*.rpm dist/rpm/.
+
+      - name: Upload RPM
+        uses: actions/upload-artifact@v1.0.0
+        with:
+          name: Musicblocks-continuous-x86_64.rpm
+          path: 'src/dist/rpm/'
+
+
+      - name: Create .deb  
+        run: |
+          cd src
+          npx electron-builder --linux deb --publish never
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: move deb
+        run: |
+          cd src
+          mkdir -p dist/deb
+          mv dist/*.deb dist/deb/.
+
+      - name: Upload Debian
+        uses: actions/upload-artifact@v1.0.0
+        with:
+          name: Musicblocks-continuous-x86_64.deb
+          path: 'src/dist/deb/'
+
+      - name: Upload Appimage
+        uses: actions/upload-artifact@v1.0.0
+        with:
+          name: Musicblocks-continuous-x86_64.AppImage
+          path: 'src/dist/appimage/'
+      
+      - name: Upload Snap
+        uses: actions/upload-artifact@v1.0.0
+        with:
+          name: Musicblocks-continuous-x86_64.snap
+          path: 'src/dist/snap/'
+      
+
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - name: Install npm dependencies
+        run: |
+          cd src
+          npm i
+      - name: Clone musicblocks source code
+        run: |
+          cd src
+          git clone https://github.com/sugarlabs/musicblocks
+      - name: Patch the musicblocks code base
+        run: |
+          cd src
+          sh ./patch.sh
+      - name: Create EXE for Windows
+        run: |
+          cd src
+          npx electron-builder --win --publish never
+        env: 
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Copy dist
+        run: |
+          cd src
+          mkdir -p dist/exe
+          mv dist/*.exe dist/exe/.
+    
+      - name: Upload Windows exe
+        uses: actions/upload-artifact@v1.0.0
+        with:
+          name: Musicblocks-continuous-x86_64.exe
+          path: 'src/dist/exe/'
+
+  macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+
+      - name: Install npm dependencies 
+        run: |
+          cd src
+          npm i
+
+      - name: Install gnu-sed for patching
+        run: |
+          brew install gnu-sed
+
+      - name: Clone musicblocks
+        run: |
+          cd src
+          git clone https://github.com/sugarlabs/musicblocks
+
+      - name: Patch Musicblocks codebase
+        run: |
+          cd src 
+          gsed -i 's/sed/gsed/g' patch.sh
+          sh ./patch.sh
+
+      - name: Build dmg
+        run: |
+          cd src
+          npx electron-builder --mac --publish never
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Copy dist
+        run: |
+          cd src
+          mkdir -p dist/dmg
+          mv dist/*.dmg dist/dmg/.
+    
+      - name: Upload MacOS DMG
+        uses: actions/upload-artifact@v1.0.0
+        with:
+          name: Musicblocks-continuous-x86_64.dmg
+          path: 'src/dist/dmg/'
+
+  Release:
+    needs: [macos, windows, linux]
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        version: [3.8]
+
+    steps:
+    - uses: actions/download-artifact@v1
+      with:
+        name: Musicblocks-continuous-x86_64.dmg
+    - uses: actions/download-artifact@v1
+      with:
+        name: Musicblocks-continuous-x86_64.exe
+    - uses: actions/download-artifact@v1
+      with:
+        name: Musicblocks-continuous-x86_64.snap
+    - uses: actions/download-artifact@v1
+      with:
+        name: Musicblocks-continuous-x86_64.AppImage
+    - uses: actions/download-artifact@v1
+      with:
+        name: Musicblocks-continuous-x86_64.deb 
+    - uses: actions/download-artifact@v1
+      with:
+        name: Musicblocks-continuous-x86_64.rpm 
+    
+
+    - name: Release
+      uses: marvinpinto/action-automatic-releases@latest
+      if: github.ref == 'refs/heads/master'
+      with:
+        automatic_release_tag: continuous
+        title: continuous
+        files: |
+          Musicblocks-continuous-x86_64.dmg
+          Musicblocks-continuous-x86_64.exe
+          Musicblocks-continuous-x86_64.snap
+          Musicblocks-continuous-x86_64.AppImage
+          Musicblocks-continuous-x86_64.deb
+          Musicblocks-continuous-x86_64.rpm
+        repo_token: ${{ secrets.GITHUB_TOKEN }} 
