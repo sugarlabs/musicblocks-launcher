@@ -32,29 +32,30 @@ The following are instructions to build AppImages (Linux), EXE (Windows).
 AppImages are a portable executable binaries built on the oldest distribution for 
 wider compatability. AppImages work out of the box without configuration, or any package manager.
 
+For x86-64:
 ```bash
-git clone https://github.com/srevinsaju/musicblocks-app  # clone this repository
+git clone https://github.com/sugarlabs/musicblocks-launcher  # clone this repository
 cd musicblocks-app
+cd src
 git clone https://github.com/sugarlabs/musicblocks [--depth=1]
 yarn install
 ./patch.sh  # patches the musicblocks-app so that it is compatible with electron
-npx electron-builder --linux appimage --publish never
+npx electron-builder --x64 --linux AppImage --publish never # use --arm64 or --armv7l for other architectures
 mkdir -p dist/appimage
 cd dist/
 ./*.AppImage --appimage-extract
-cp linux-unpacked/resources/app.asar squashfs-root/resources/.  # necessary step, else the patched appimage won't load CSS
-wget https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage
+cp linux-unpacked/resources/app.asar squashfs-root/resources/. # necessary step, else the patched appimage won't load CSS; use linux-arm64-unpacked/ or linux-armv7l-unpacked/ for other archs
+wget https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage # replace x86-64 with aarch64 or armhf for other archs
 chmod +x appimagetool-x86_64.AppImage
 rm Musicblocks*.AppImage
 ./appimagetool-x86_64.AppImage --comp gzip squashfs-root -n
-ls 
 rm -rf squashfs-root
 mv Musicblocks*.AppImage appimage/.
 chmod +x appimage/*.AppImage
 cd ..
 ```
 
-this will create a Musicblocks AppImage in `./dist/appimage`
+This will create a Musicblocks AppImage in `./dist/appimage`.
 
 ### Flatpak
 
