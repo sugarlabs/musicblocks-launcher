@@ -114,6 +114,108 @@ jobs:
           path: 'src/dist/snap/'
       
 
+  linux_arm64:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - uses: uraimo/run-on-arch-action@v2.0.10
+        name: Run commands
+        id: runcmd
+        with:
+          arch: arm64
+          distro: ubuntu18.04
+
+      - run: |
+          cd src
+          npm i
+      - run: |
+          cd src
+          git clone https://github.com/sugarlabs/musicblocks
+      - run: |
+          cd src
+          sh ./patch.sh
+      - run: |
+          cd src
+          npx electron-builder --arm64 --linux AppImage --publish never
+
+      - name: Patch AppImage arm64
+        run: |
+          cd src
+          mkdir -p dist/appimage
+          cd dist/
+          ./*.AppImage --appimage-extract
+          cp linux-arm64-unpacked/resources/app.asar squashfs-root/resources/.
+          wget https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-aarch64.AppImage
+          chmod +x appimagetool-aarch64.AppImage
+          rm Musicblocks*.AppImage
+          ./appimagetool-aarch64.AppImage squashfs-root -n
+          ls
+          rm -rf squashfs-root
+          mv Musicblocks*.AppImage appimage/.
+          chmod +x appimage/*.AppImage
+          cd ..
+
+      - name: Upload Appimage arm64
+        uses: actions/upload-artifact@v1.0.0
+        with:
+          name: Musicblocks-continuous-aarch64.AppImage
+          path: 'src/dist/appimage/'
+
+
+  linux_armv7:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - uses: uraimo/run-on-arch-action@v2.0.10
+        name: Run commands
+        id: runcmd
+        with:
+          arch: armv7
+          distro: ubuntu18.04
+
+      - run: |
+          cd src
+          npm i
+      - run: |
+          cd src
+          git clone https://github.com/sugarlabs/musicblocks
+      - run: |
+          cd src
+          sh ./patch.sh
+      - run: |
+          cd src
+          npx electron-builder --armv7l --linux AppImage --publish never
+
+      - name: Patch AppImage armv7
+        run: |
+          cd src
+          mkdir -p dist/appimage
+          cd dist/
+          ./*.AppImage --appimage-extract
+          cp linux-armv7l-unpacked/resources/app.asar squashfs-root/resources/.
+          wget https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-armhf.AppImage
+          chmod +x appimagetool-armhf.AppImage
+          rm Musicblocks*.AppImage
+          ./appimagetool-armhf.AppImage squashfs-root -n
+          ls
+          rm -rf squashfs-root
+          mv Musicblocks*.AppImage appimage/.
+          chmod +x appimage/*.AppImage
+          cd ..
+
+      - name: Upload Appimage armv7
+        uses: actions/upload-artifact@v1.0.0
+        with:
+          name: Musicblocks-continuous-arm.AppImage
+          path: 'src/dist/appimage/'
+
+
   windows:
     runs-on: windows-latest
     steps:
@@ -221,6 +323,12 @@ jobs:
         name: Musicblocks-continuous-x86_64.AppImage
     - uses: actions/download-artifact@v1
       with:
+        name: Musicblocks-continuous-aarch64.AppImage
+    - uses: actions/download-artifact@v1
+      with:
+        name: Musicblocks-continuous-arm.AppImage
+    - uses: actions/download-artifact@v1
+      with:
         name: Musicblocks-continuous-x86_64.deb 
     - uses: actions/download-artifact@v1
       with:
@@ -238,6 +346,8 @@ jobs:
           Musicblocks-continuous-x86_64.exe
           Musicblocks-continuous-x86_64.snap
           Musicblocks-continuous-x86_64.AppImage
+          Musicblocks-continuous-aarch64.AppImage
+          Musicblocks-continuous-arm.AppImage
           Musicblocks-continuous-x86_64.deb
           Musicblocks-continuous-x86_64.rpm
         repo_token: ${{ secrets.GITHUB_TOKEN }} 

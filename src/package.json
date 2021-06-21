@@ -1,6 +1,6 @@
 {
   "name": "Musicblocks",
-  "version": "3.1.0",
+  "version": "3.5.1",
   "description": "Visual Programming Language for Exploring Math, Music, and Programming",
   "main": "main.js",
   "scripts": {
@@ -10,7 +10,7 @@
     "dist": "electron-builder",
     "release": "electron-builder --publish always"
   },
-  "repository": "https://github.com/srevinsaju/musicblocks-app",
+  "repository": "https://github.com/sugarlabs/musicblocks-launcher",
   "keywords": [
     "Sugar",
     "Education",
