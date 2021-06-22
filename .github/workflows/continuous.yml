@@ -114,7 +114,7 @@ jobs:
           path: 'src/dist/snap/'
       
 
-  linux_arm64:
+  linux_aarch64:
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
@@ -125,40 +125,40 @@ jobs:
         name: Run commands
         id: runcmd
         with:
-          arch: arm64
+          arch: aarch64
           distro: ubuntu18.04
 
-      - run: |
-          cd src
-          npm i
-      - run: |
-          cd src
-          git clone https://github.com/sugarlabs/musicblocks
-      - run: |
-          cd src
-          sh ./patch.sh
-      - run: |
-          cd src
-          npx electron-builder --arm64 --linux AppImage --publish never
+          run: |
+            cd src
+            npm i
+            git clone https://github.com/sugarlabs/musicblocks
+            sh ./patch.sh
+            npx electron-builder --arm64 --linux AppImage --publish never
+              
 
-      - name: Patch AppImage arm64
-        run: |
-          cd src
-          mkdir -p dist/appimage
-          cd dist/
-          ./*.AppImage --appimage-extract
-          cp linux-arm64-unpacked/resources/app.asar squashfs-root/resources/.
-          wget https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-aarch64.AppImage
-          chmod +x appimagetool-aarch64.AppImage
-          rm Musicblocks*.AppImage
-          ./appimagetool-aarch64.AppImage squashfs-root -n
-          ls
-          rm -rf squashfs-root
-          mv Musicblocks*.AppImage appimage/.
-          chmod +x appimage/*.AppImage
-          cd ..
+      - uses: uraimo/run-on-arch-action@v2.0.10
+        name: Patch AppImage aaarch64
+        with:
+          arch: aarch64
+          distro: ubuntu18.04
 
-      - name: Upload Appimage arm64
+          run: |
+            cd src
+            mkdir -p dist/appimage
+            cd dist/
+            ./*.AppImage --appimage-extract
+            cp linux-arm64-unpacked/resources/app.asar squashfs-root/resources/.
+            wget https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-aarch64.AppImage
+            chmod +x appimagetool-aarch64.AppImage
+            rm Musicblocks*.AppImage
+            ./appimagetool-aarch64.AppImage squashfs-root -n
+            ls
+            rm -rf squashfs-root
+            mv Musicblocks*.AppImage appimage/.
+            chmod +x appimage/*.AppImage
+            cd ..
+
+      - name: Upload Appimage aarch64
         uses: actions/upload-artifact@v1.0.0
         with:
           name: Musicblocks-continuous-aarch64.AppImage
@@ -179,35 +179,34 @@ jobs:
           arch: armv7
           distro: ubuntu18.04
 
-      - run: |
-          cd src
-          npm i
-      - run: |
-          cd src
-          git clone https://github.com/sugarlabs/musicblocks
-      - run: |
-          cd src
-          sh ./patch.sh
-      - run: |
-          cd src
-          npx electron-builder --armv7l --linux AppImage --publish never
+          run: |
+              cd src
+              npm i
+              git clone https://github.com/sugarlabs/musicblocks
+              sh ./patch.sh
+              npx electron-builder --armv7l --linux AppImage --publish never
 
-      - name: Patch AppImage armv7
-        run: |
-          cd src
-          mkdir -p dist/appimage
-          cd dist/
-          ./*.AppImage --appimage-extract
-          cp linux-armv7l-unpacked/resources/app.asar squashfs-root/resources/.
-          wget https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-armhf.AppImage
-          chmod +x appimagetool-armhf.AppImage
-          rm Musicblocks*.AppImage
-          ./appimagetool-armhf.AppImage squashfs-root -n
-          ls
-          rm -rf squashfs-root
-          mv Musicblocks*.AppImage appimage/.
-          chmod +x appimage/*.AppImage
-          cd ..
+      - uses: uraimo/run-on-arch-action@v2.0.10
+        name: Patch AppImage armv7
+        with:
+          arch: aarch64
+          distro: ubuntu18.04
+
+          run: |
+            cd src
+            mkdir -p dist/appimage
+            cd dist/
+            ./*.AppImage --appimage-extract
+            cp linux-armv7l-unpacked/resources/app.asar squashfs-root/resources/.
+            wget https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-armhf.AppImage
+            chmod +x appimagetool-armhf.AppImage
+            rm Musicblocks*.AppImage
+            ./appimagetool-armhf.AppImage squashfs-root -n
+            ls
+            rm -rf squashfs-root
+            mv Musicblocks*.AppImage appimage/.
+            chmod +x appimage/*.AppImage
+            cd ..
 
       - name: Upload Appimage armv7
         uses: actions/upload-artifact@v1.0.0
