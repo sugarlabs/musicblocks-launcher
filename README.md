@@ -35,7 +35,7 @@ wider compatability. AppImages work out of the box without configuration, or any
 For x86-64:
 ```bash
 git clone https://github.com/sugarlabs/musicblocks-launcher  # clone this repository
-cd musicblocks-app
+cd musicblocks-launcher
 cd src
 git clone https://github.com/sugarlabs/musicblocks [--depth=1]
 yarn install
@@ -99,8 +99,9 @@ which provides the latest GNU sed. Make sure `sed` is executable from the termin
 before proceeding
 
 ```bash
-git clone https://github.com/srevinsaju/musicblocks-app  # clone this repository
-cd musicblocks-app
+git clone https://github.com/sugarlabs/musicblocks-launcher  # clone this repository
+cd musicblocks-launcher
+cd src
 git clone https://github.com/sugarlabs/musicblocks [--depth=1]
 yarn install
 ./patch.sh  # patches the musicblocks-app so that it is compatible with electron
@@ -111,9 +112,25 @@ Will automatically create a `dist` folder with a `Musicblocks*.exe`
 
 ### MacOS Executables
 
-I do not own a macOS, so I cannot test macOS. Please let me know if `*.dmg` from the continuous
-releases work on your macOS desktop, if not feel free to create an issue [here](https://github.com/srevinsaju/musicblocks-app/issues) and not 
-at the Musicblocks repository.
+To build Musicblocks binaries on MacOS, you will need the Homebrew package
+manager or to otherwise install `gnu-sed` in order to patch musicblocks to be
+compatible with electron.
+
+```bash
+git clone https://github.com/sugarlabs/musicblocks-launcher  # clone this repository
+cd musicblocks-launcher
+cd src
+npm i
+brew install gnu-sed # required to apply patch.sh
+git clone https://github.com/sugarlabs/musicblocks [--depth=1]
+gsed -i 's/sed/gsed/g' patch.sh
+sh ./patch.sh # patches the musicblocks-app so that it is compatible with electron
+npx electron-builder --mac --publish never
+mkdir -p dist/dmg
+mv dist/*.dmg dist/dmg/.
+```
+
+This will create a Musicblocks `.dmg` executable in `./dist/dmg/`.
 
 ## License
 
