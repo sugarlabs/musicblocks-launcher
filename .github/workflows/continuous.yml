@@ -99,7 +99,7 @@ jobs:
       
       - name: Setup build environment
         run: |
-          ./src/scripts/ci-setup-linux.sh
+          .\src\scripts\ci-setup-windows.bat
 
       - run: |
           cd src
