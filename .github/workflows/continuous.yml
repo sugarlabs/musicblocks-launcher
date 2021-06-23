@@ -29,12 +29,17 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 14
-      
+
+      - name: Install Snapcraft
+        if: matrix.build_type == 'snap'
+        run: sudo snap install snapcraft --classic
+
       - name: Setup build environment
         run: |
           ./src/scripts/ci-setup-linux.sh
 
-      - run: |
+      - name: Build
+        run: |
           cd src
           yarn run build:${{ matrix.build_type }} --${{ matrix.arch }}
 
