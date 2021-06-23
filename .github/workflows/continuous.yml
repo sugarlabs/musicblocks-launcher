@@ -18,7 +18,11 @@ jobs:
       matrix: 
         build_type: ['appimage', 'snap', 'deb', 'rpm']
         arch: ['x64', 'ia32', 'armv7l', 'arm64']
-
+        exclude:
+          - build_type: snap
+            arch: 'arm64'
+          - build_type: snap
+            arch: 'armv7l'
     steps:
       
       - uses: actions/checkout@v2
