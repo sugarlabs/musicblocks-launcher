@@ -14,7 +14,7 @@
     "build:rpm": "electron-builder --linux rpm --publish never && ./scripts/ci-appimage-patch.sh",
     "build:deb": "electron-builder --linux deb --publish never",
     "build:windows": "electron-builder --win --publish never",
-    "build:macos": "electron-builder --mac zip --publish never"
+    "build:macos": "electron-builder --mac --publish never"
   },
   "repository": "https://github.com/sugarlabs/musicblocks-launcher",
   "keywords": [

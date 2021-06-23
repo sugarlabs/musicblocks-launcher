@@ -17,7 +17,7 @@ jobs:
     strategy:
       matrix: 
         arch: ['x64', 'ia32', 'armv7l', 'arm64']
-        build_type: ['appimage', 'snap', 'deb', 'rpm', 'windows', 'macos']
+        build_type: ['appimage', 'snap', 'deb', 'rpm', 'windows']
 
     steps:
       
@@ -47,9 +47,38 @@ jobs:
           name: Musicblocks-${{ matrix.arch }}-${{ matrix.build_type }}
           path: 'src/dist/'
 
+  build-macos:
+    runs-on: macos-latest
+    steps:
+      
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
+      
+      - name: Setup build environment
+        run: |
+          ./src/scripts/ci-setup-macos.sh
+
+      - run: |
+          cd src
+          yarn run build:macos
+
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: Musicblocks-macos-x86_64
+          path: 'src/dist/'
 
   Release:
-    needs: [build]
+    needs: [build, build-macos]
     runs-on: ubuntu-latest
 
 
