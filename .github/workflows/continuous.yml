@@ -16,8 +16,13 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix: 
-        arch: ['x64', 'ia32', 'armv7l', 'arm64']
         build_type: ['appimage', 'snap', 'deb', 'rpm', 'windows']
+        arch: ['x64', 'ia32', 'armv7l', 'arm64']
+        exclude:
+          - build_type: 'windows'
+            arch: 'armv7l'
+          - build_type: 'windows'
+            arch: 'arm64'
 
     steps:
       
