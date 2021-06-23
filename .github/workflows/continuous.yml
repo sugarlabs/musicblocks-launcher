@@ -36,7 +36,7 @@ jobs:
 
       - run: |
           cd src
-          yarn run build:{{ matrix.build_type }} --{{ matrix.arch }}
+          yarn run build:${{ matrix.build_type }} --${{ matrix.arch }}
 
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -44,7 +44,7 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-artifact@v2
         with:
-          name: Musicblocks-{{ matrix.arch }}-{{ matrix.build_type }}
+          name: Musicblocks-${{ matrix.arch }}-${{ matrix.build_type }}
           path: 'src/dist/'
 
 
