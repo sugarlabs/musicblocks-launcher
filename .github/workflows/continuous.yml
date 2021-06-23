@@ -23,6 +23,8 @@ jobs:
             arch: 'arm64'
           - build_type: snap
             arch: 'armv7l'
+          - build_type: snap
+            arch: 'ia32'
     steps:
       
       - uses: actions/checkout@v2
