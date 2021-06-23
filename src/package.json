@@ -19,8 +19,8 @@
   "author": "Srevin Saju <srevinsaju@sugarlabs.org>",
   "license": "MIT",
   "devDependencies": {
-    "electron": "^9.3.1",
-    "electron-builder": "^22.7.0"
+    "electron": "13.1.4",
+    "electron-builder": "22.11.7"
   },
   "dependencies": {
     "electron-dl": "^3.0.1",
@@ -37,5 +37,4 @@
       "category": "Education"
     }
   }
-
 }
