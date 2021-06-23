@@ -2,7 +2,7 @@
 
 set -eux
 
-cd src/dist/
+cd dist/
 ./*.AppImage --appimage-extract
 
 # HACK: the electron builder, for some reason doesn't copy the asar
@@ -19,4 +19,4 @@ rm Musicblocks*.AppImage
 # repackage the appimage 
 ./appimagetool-x86_64.AppImage squashfs-root -n -u 'gh-releases-zsync|sugarlabs|musicblocks-launcher|continuous|Musicblocks*.AppImage'
 rm -rf squashfs-root
-cd ../..
+cd ..
