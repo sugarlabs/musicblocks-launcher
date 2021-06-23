@@ -8,7 +8,13 @@
     "patch": "./patch.sh",
     "pack": "electron-builder --dir",
     "dist": "electron-builder",
-    "release": "electron-builder --publish always"
+    "release": "electron-builder --publish always",
+    "build:appimage": "electron-builder --linux appimage --publish never",
+    "build:snap": "electron-builder --linux snap --publish never",
+    "build:rpm": "electron-builder --linux rpm --publish never && ./scripts/ci-appimage-patch.sh",
+    "build:deb": "electron-builder --linux deb --publish never",
+    "build:windows": "electron-builder --win --publish never",
+    "build:macos": "electron-builder --mac --publish never"
   },
   "repository": "https://github.com/sugarlabs/musicblocks-launcher",
   "keywords": [
