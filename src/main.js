@@ -10,6 +10,7 @@ electronDl({
 function createWindow () {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
+    title: 'Music Blocks',
     width: 1024,
     height: 768,
     icon: __dirname + '/icon.png', 

@@ -1,5 +1,5 @@
 {
-  "name": "Musicblocks",
+  "name": "music-blocks",
   "version": "3.5.1",
   "description": "Visual Programming Language for Exploring Math, Music, and Programming",
   "main": "main.js",
@@ -27,11 +27,11 @@
     "electron-prompt": "^1.5.1"
   },
   "build": {
-    "appId": "org.sugarlabs.musicblocks",
-    "productName": "Musicblocks",
+    "appId": "org.sugarlabs.MusicBlocks",
+    "productName": "Music Blocks",
     "copyright": "Copyright © 2020 Srevin Saju under MIT License",
     "mac": {
-      "category": "org.sugarlabs.musicblocks"
+      "category": "org.sugarlabs.MusicBlocks"
     },
     "linux": {
       "category": "Education"
