@@ -1,7 +1,7 @@
-# Musicblocks Launcher
+# Music Blocks Launcher
 
-Electron 9 App for Musicblocks (https://github.com/sugarlabs/musicblocks)
-Musicblocks desktop electron app for Windows, Linux and MacOS (untested). 
+Electron 13 desktop app for Music Blocks
+(https://github.com/sugarlabs/musicblocks) for Linux, Windows, and MacOS.
 
 # Get Started
 
@@ -9,57 +9,54 @@ Musicblocks desktop electron app for Windows, Linux and MacOS (untested).
 
 * Download the latest release
 
-On Linux, make sure you give the `x` bit, for execution permission. 
+On Linux (AppImage), make sure you give the `x` bit for execution permission. 
 
 ```bash
-chmod +x Musicblocks*.AppImage
+chmod +x MusicBlocks*.AppImage
 ```
 
-On Windows, double click the .exe to run a portable version of musicblocks
+On Windows, double click the .exe to run a portable version of musicblocks.
 
-On macOS, (untested), double click the `*.dmg` file and follow the on screen instructions
+On MacOS, double click the .dmg file and follow the on screen instructions.
+When opening the app for the first time, open from the Applications folder by
+right-clicking and pressing "Open" (this may require clicking "Open" twice).
+This is because the .dmg binaries are unsigned.
 
 ## Developers
 
-If you are interested in distributing this electron package in some other format, 
-you may like to use `./patch.sh`. Please reference the origin of the source to `./patch.sh` 
-as it would be helpful for other developers to get an updated copy
+If you are interested in distributing this Electron package in some other
+format, you may like to use `./src/patch.sh`. Please reference the origin of
+the source to `./src/patch.sh` as it would be helpful for other developers to
+get an updated copy.
 
-The following are instructions to build AppImages (Linux), EXE (Windows).
+The following are instructions to build AppImages (Linux), Flatpak (Linux),
+EXE (Windows), and DMG (MacOS) binaries.
 
 ### AppImages
 
-AppImages are a portable executable binaries built on the oldest distribution for 
-wider compatability. AppImages work out of the box without configuration, or any package manager.
+AppImages are a portable executable binaries built on the oldest distribution
+for wider compatability. AppImages work out of the box without configuration
+or any package manager.
 
-For x86-64:
 ```bash
 git clone https://github.com/sugarlabs/musicblocks-launcher  # clone this repository
 cd musicblocks-launcher
 cd src
-git clone https://github.com/sugarlabs/musicblocks [--depth=1]
 yarn install
-./patch.sh  # patches the musicblocks-app so that it is compatible with electron
-npx electron-builder --x64 --linux AppImage --publish never # use --arm64 or --armv7l for other architectures
-mkdir -p dist/appimage
-cd dist/
-./*.AppImage --appimage-extract
-cp linux-unpacked/resources/app.asar squashfs-root/resources/. # necessary step, else the patched appimage won't load CSS; use linux-arm64-unpacked/ or linux-armv7l-unpacked/ for other archs
-wget https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage # replace x86-64 with aarch64 or armhf for other archs
-chmod +x appimagetool-x86_64.AppImage
-rm Musicblocks*.AppImage
-./appimagetool-x86_64.AppImage --comp gzip squashfs-root -n
-rm -rf squashfs-root
-mv Musicblocks*.AppImage appimage/.
-chmod +x appimage/*.AppImage
-cd ..
+git clone https://github.com/sugarlabs/musicblocks [--depth=1]
+sh ./patch.sh # patches the app so that it is compatible with electron
+npx electron-builder --linux appimage --publish never # defaults to current arch, use a flag for other archs
 ```
 
-This will create a Musicblocks AppImage in `./dist/appimage`.
+This will create a Music Blocks AppImage in `./dist/`.
 
 ### Flatpak
 
-1. Install `flatpak-builder`, the freedesktop runtime and SDK, and the electron baseapp:
+To build the Flatpak app for Music Blocks, you must have the Flatpak manifest
+`./data/org.sugarlabs.MusicBlocks.yaml` in your current working directory.
+
+1. Install `flatpak-builder`, the freedesktop runtime and SDK, and the electron
+baseapp:
 
 ```
 $ flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
@@ -70,18 +67,19 @@ $ flatpak install flathub org.electronjs.Electron2.BaseApp
 
 2. Build and install the application:
    
-   ```
-   $ flatpak-builder --force-clean --repo=repo build org.sugarlabs.MusicBlocks.yaml
-   $ flatpak build-bundle repo musicblocks.flatpak org.sugarlabs.MusicBlocks stable
-   $ flatpak install musicblocks.flatpak
-   ```
+```
+$ flatpak-builder --force-clean --repo=repo build org.sugarlabs.MusicBlocks.yaml
+$ flatpak build-bundle repo musicblocks.flatpak org.sugarlabs.MusicBlocks stable
+$ flatpak install musicblocks.flatpak
+```
 
 3. Run the application:
-   You can either launch Music Blocks from the applications menu or run it directly from the command line:
+   You can either launch Music Blocks from the applications menu or run it
+   directly from the command line:
    
-   ```
-   $ flatpak run org.sugarlabs.MusicBlocks
-   ```
+```
+$ flatpak run org.sugarlabs.MusicBlocks
+```
 
 #### Adding to the Launcher
 
@@ -94,9 +92,9 @@ To add screenshots:
 
 ### Windows Executables
 
-To build Musicblocks binaries on Windows, you need a CYGWIN / MSYS2 / WSL2 interface 
-which provides the latest GNU sed. Make sure `sed` is executable from the terminal
-before proceeding
+To build Music Blocks binaries on Windows, you need a CYGWIN / MSYS2 / WSL2
+interface which provides the latest GNU sed. Make sure `sed` is executable from
+the terminal before proceeding.
 
 ```bash
 git clone https://github.com/sugarlabs/musicblocks-launcher  # clone this repository
@@ -104,15 +102,15 @@ cd musicblocks-launcher
 cd src
 git clone https://github.com/sugarlabs/musicblocks [--depth=1]
 yarn install
-./patch.sh  # patches the musicblocks-app so that it is compatible with electron
+./patch.sh  # patches the app so that it is compatible with electron
 npx electron-builder --win --publish never
 ```
 
-Will automatically create a `dist` folder with a `Musicblocks*.exe`
+This will automatically create a `dist` folder with a `MusicBlocks*.exe`.
 
 ### MacOS Executables
 
-To build Musicblocks binaries on MacOS, you will need the Homebrew package
+To build Music Blocks binaries on MacOS, you will need the Homebrew package
 manager or to otherwise install `gnu-sed` in order to patch musicblocks to be
 compatible with electron.
 
@@ -126,17 +124,15 @@ git clone https://github.com/sugarlabs/musicblocks [--depth=1]
 gsed -i 's/sed/gsed/g' patch.sh
 sh ./patch.sh # patches the musicblocks-app so that it is compatible with electron
 npx electron-builder --mac --publish never
-mkdir -p dist/dmg
-mv dist/*.dmg dist/dmg/.
 ```
 
-This will create a Musicblocks `.dmg` executable in `./dist/dmg/`.
+This will automatically create a `dist` folder with a `MusicBlocks*.dmg`.
 
 ## License
 
 This software is free, ["Free as in Freedom"](https://www.gnu.org/philosophy/free-sw.en.html). 
-The original source code of the Musicblocks web interface is licensed under GNU AGPL.
-The source code of the [Musicblocks](https://musicblocks.sugarlabs.org) is available
+The original source code of the Music Blocks web interface is licensed under GNU AGPL.
+The source code of the [Music Blocks](https://musicblocks.sugarlabs.org) is available
 at [GitHub](https://github.com) repository: 
 [https://github.com/sugarlabs/musicblocks](https://github.com/sugarlabs/musicblocks)
 
