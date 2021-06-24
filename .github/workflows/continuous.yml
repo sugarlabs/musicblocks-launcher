@@ -9,292 +9,129 @@ on:
     branches: [master]
 
 
+
+
 jobs:
-  linux:
-    runs-on: ubuntu-18.04
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix: 
+        build_type: ['appimage', 'snap', 'deb', 'rpm']
+        arch: ['x64', 'ia32', 'armv7l', 'arm64']
+        exclude:
+          - build_type: snap
+            arch: 'arm64'
+          - build_type: snap
+            arch: 'armv7l'
+          - build_type: snap
+            arch: 'ia32'
     steps:
+      
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
         with:
-          node-version: 12
-          
-      - run: |
-          cd src
-          npm i
-      - run: |
-          cd src 
-          git clone https://github.com/sugarlabs/musicblocks
-      - run: |
-          cd src
-          sh ./patch.sh
-      - run: |
-          cd src
-          npx electron-builder --linux appimage --publish never
-    
-      - name: Patch AppImage
-        run: |
-          cd src
-          mkdir -p dist/appimage
-          cd dist/
-          ./*.AppImage --appimage-extract
-          cp linux-unpacked/resources/app.asar squashfs-root/resources/.
-          wget https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage
-          chmod +x appimagetool-x86_64.AppImage
-          rm Musicblocks*.AppImage
-          ./appimagetool-x86_64.AppImage squashfs-root -n
-          ls 
-          rm -rf squashfs-root
-          mv Musicblocks*.AppImage appimage/.
-          chmod +x appimage/*.AppImage
-          cd ..
+          fetch-depth: 0
+      
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
 
-      - name: Create Snap
+      - name: Install Snapcraft
+        if: matrix.build_type == 'snap'
+        run: sudo snap install snapcraft --classic
+
+      - name: Setup build environment
         run: |
-          cd src;
-          npx electron-builder --linux snap --publish never 
+          ./src/scripts/ci-setup-linux.sh
+
+      - name: Build
+        run: |
+          cd src
+          yarn run build:${{ matrix.build_type }} --${{ matrix.arch }}
+
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: move snap
-        run: |
-          cd src
-          mkdir -p dist/snap
-          mv dist/*.snap dist/snap/.
-
-      - name: Create .rpm
-        run: |
-          cd src
-          sudo apt-get -y install rpm
-          npx electron-builder --linux rpm --publish never
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: move rpm
-        run: |
-          cd src
-          mkdir -p dist/rpm
-          mv dist/*.rpm dist/rpm/.
-
-      - name: Upload RPM
-        uses: actions/upload-artifact@v1.0.0
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v2
         with:
-          name: Musicblocks-continuous-x86_64.rpm
-          path: 'src/dist/rpm/'
+          name: Musicblocks-${{ matrix.arch }}-${{ matrix.build_type }}
+          path: 'src/dist/'
 
-
-      - name: Create .deb  
-        run: |
-          cd src
-          npx electron-builder --linux deb --publish never
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: move deb
-        run: |
-          cd src
-          mkdir -p dist/deb
-          mv dist/*.deb dist/deb/.
-
-      - name: Upload Debian
-        uses: actions/upload-artifact@v1.0.0
-        with:
-          name: Musicblocks-continuous-x86_64.deb
-          path: 'src/dist/deb/'
-
-      - name: Upload Appimage
-        uses: actions/upload-artifact@v1.0.0
-        with:
-          name: Musicblocks-continuous-x86_64.AppImage
-          path: 'src/dist/appimage/'
-      
-      - name: Upload Snap
-        uses: actions/upload-artifact@v1.0.0
-        with:
-          name: Musicblocks-continuous-x86_64.snap
-          path: 'src/dist/snap/'
-      
-
-  linux_aarch64:
-    runs-on: ubuntu-18.04
+  build-macos:
+    runs-on: macos-latest
     steps:
+      
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
         with:
-          node-version: 12
+          fetch-depth: 0
+      
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
+      
+      - name: Setup build environment
+        run: |
+          ./src/scripts/ci-setup-macos.sh
 
       - run: |
           cd src
-          npm i
-          git clone https://github.com/sugarlabs/musicblocks
-          sh ./patch.sh
-          npx electron-builder --arm64 --linux AppImage --publish never
-              
+          yarn run build:macos
 
-      - name: Patch AppImage aarch64
-        run: |
-          cd src
-          mkdir -p dist/appimage
-          cd dist/
-          mv Musicblocks*.AppImage appimage/.
-          chmod +x appimage/*.AppImage
-          cd ..
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Upload AppImage aarch64
-        uses: actions/upload-artifact@v1.0.0
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v2
         with:
-          name: Musicblocks-continuous-aarch64.AppImage
-          path: 'src/dist/appimage/'
+          name: Musicblocks-macos-x86_64
+          path: 'src/dist/'
 
-
-  linux_armv7:
-    runs-on: ubuntu-18.04
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
-        with:
-          node-version: 12
-      
-      - run: |
-          cd src
-          npm i
-          git clone https://github.com/sugarlabs/musicblocks
-          sh ./patch.sh
-          npx electron-builder --arm64 --linux AppImage --publish never
-
-      - name: Patch AppImage armv7
-        run: |
-          cd src
-          mkdir -p dist/appimage
-          cd dist/
-          mv Musicblocks*.AppImage appimage/.
-          chmod +x appimage/*.AppImage
-          cd ..
-
-      - name: Upload AppImage armv7
-        uses: actions/upload-artifact@v1.0.0
-        with:
-          name: Musicblocks-continuous-arm.AppImage
-          path: 'src/dist/appimage/'
-
-
-  windows:
+  build-windows:
+    strategy:
+      matrix: 
+        arch: ['x64', 'ia32']
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
         with:
-          node-version: 12
-      - name: Install npm dependencies
-        run: |
-          cd src
-          npm i
-      - name: Clone musicblocks source code
-        run: |
-          cd src
-          git clone https://github.com/sugarlabs/musicblocks
-      - name: Patch the musicblocks code base
-        run: |
-          cd src
-          sh ./patch.sh
-      - name: Create EXE for Windows
-        run: |
-          cd src
-          npx electron-builder --win --publish never
-        env: 
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Copy dist
-        run: |
-          cd src
-          mkdir -p dist/exe
-          mv dist/*.exe dist/exe/.
-    
-      - name: Upload Windows exe
-        uses: actions/upload-artifact@v1.0.0
+          fetch-depth: 0
+      
+      - name: Setup Node
+        uses: actions/setup-node@v2
         with:
-          name: Musicblocks-continuous-x86_64.exe
-          path: 'src/dist/exe/'
-
-  macos:
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
-        with:
-          node-version: 12
-
-      - name: Install npm dependencies 
+          node-version: 14
+      
+      - name: Setup build environment
         run: |
+          .\src\scripts\ci-setup-windows.bat
+
+      - run: |
           cd src
-          npm i
+          yarn run build:windows --${{ matrix.arch }}
 
-      - name: Install gnu-sed for patching
-        run: |
-          brew install gnu-sed
-
-      - name: Clone musicblocks
-        run: |
-          cd src
-          git clone https://github.com/sugarlabs/musicblocks
-
-      - name: Patch Musicblocks codebase
-        run: |
-          cd src 
-          gsed -i 's/sed/gsed/g' patch.sh
-          sh ./patch.sh
-
-      - name: Build dmg
-        run: |
-          cd src
-          npx electron-builder --mac --publish never
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Copy dist
-        run: |
-          cd src
-          mkdir -p dist/dmg
-          mv dist/*.dmg dist/dmg/.
-    
-      - name: Upload MacOS DMG
-        uses: actions/upload-artifact@v1.0.0
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v2
         with:
-          name: Musicblocks-continuous-x86_64.dmg
-          path: 'src/dist/dmg/'
+          name: Musicblocks-windows-x86_64
+          path: 'src/dist/'
 
   Release:
-    needs: [macos, windows, linux]
+    needs: [build, build-macos, build-windows]
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        version: [3.8]
+
 
     steps:
-    - uses: actions/download-artifact@v1
+    - name: Make a directory to store all artifacts
+      run: mkdir artifacts
+    - uses: actions/download-artifact@v2
       with:
-        name: Musicblocks-continuous-x86_64.dmg
-    - uses: actions/download-artifact@v1
-      with:
-        name: Musicblocks-continuous-x86_64.exe
-    - uses: actions/download-artifact@v1
-      with:
-        name: Musicblocks-continuous-x86_64.snap
-    - uses: actions/download-artifact@v1
-      with:
-        name: Musicblocks-continuous-x86_64.AppImage
-    - uses: actions/download-artifact@v1
-      with:
-        name: Musicblocks-continuous-aarch64.AppImage
-    - uses: actions/download-artifact@v1
-      with:
-        name: Musicblocks-continuous-arm.AppImage
-    - uses: actions/download-artifact@v1
-      with:
-        name: Musicblocks-continuous-x86_64.deb 
-    - uses: actions/download-artifact@v1
-      with:
-        name: Musicblocks-continuous-x86_64.rpm 
-    
+        path: artifacts
+
 
     - name: Release
       uses: marvinpinto/action-automatic-releases@latest
@@ -303,12 +140,5 @@ jobs:
         automatic_release_tag: continuous
         title: continuous
         files: |
-          Musicblocks-continuous-x86_64.dmg
-          Musicblocks-continuous-x86_64.exe
-          Musicblocks-continuous-x86_64.snap
-          Musicblocks-continuous-x86_64.AppImage
-          Musicblocks-continuous-aarch64.AppImage
-          Musicblocks-continuous-arm.AppImage
-          Musicblocks-continuous-x86_64.deb
-          Musicblocks-continuous-x86_64.rpm
+          artifacts/*
         repo_token: ${{ secrets.GITHUB_TOKEN }} 
