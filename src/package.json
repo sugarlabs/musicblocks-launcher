@@ -1,5 +1,5 @@
 {
-  "name": "Musicblocks",
+  "name": "musicblocks-launcher",
   "version": "3.5.1",
   "description": "Visual Programming Language for Exploring Math, Music, and Programming",
   "main": "main.js",
@@ -9,7 +9,8 @@
     "pack": "electron-builder --dir",
     "dist": "electron-builder",
     "release": "electron-builder --publish always",
-    "build:appimage": "electron-builder --linux appimage --publish never && ./scripts/ci-appimage-patch.sh",
+    "build:appimage": "electron-builder --linux appimage --publish never",
+    "build:appimage-patch": "./scripts/ci-appimage-patch.sh",
     "build:snap": "electron-builder --linux snap --publish never",
     "build:rpm": "electron-builder --linux rpm --publish never",
     "build:deb": "electron-builder --linux deb --publish never",
@@ -34,13 +35,16 @@
   },
   "build": {
     "appId": "org.sugarlabs.musicblocks",
-    "productName": "Musicblocks",
-    "copyright": "Copyright © 2020 Srevin Saju under MIT License",
+    "productName": "MusicBlocks",
+    "copyright": "Copyright © 2020-21 Sugar Labs",
     "mac": {
       "category": "org.sugarlabs.musicblocks"
     },
     "linux": {
       "category": "Education"
+    },
+    "appImage": {
+      "artifactName": "${productName}-${version}-${arch}.${ext}"
     }
   }
 }
