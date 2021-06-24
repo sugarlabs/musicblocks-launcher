@@ -15,12 +15,12 @@ On Linux (AppImage), make sure you give the `x` bit for execution permission.
 chmod +x MusicBlocks*.AppImage
 ```
 
-On Windows, double click the .exe to run a portable version of musicblocks.
+On Windows, double click the .exe to run a portable version of Music Blocks.
 
 On MacOS, double click the .dmg file and follow the on screen instructions.
 When opening the app for the first time, open from the Applications folder by
-right-clicking and pressing "Open" (this may require clicking "Open" twice).
-This is because the .dmg binaries are unsigned.
+right-clicking and pressing "Open" (you may need to do this twice). This is
+because the .dmg binaries are unsigned.
 
 ## Developers
 
@@ -80,6 +80,28 @@ $ flatpak install musicblocks.flatpak
 ```
 $ flatpak run org.sugarlabs.MusicBlocks
 ```
+
+#### Updating the Flatpak app on Flathub
+
+When Music Blocks releases a new update the Flatpak app on Flathub should be
+updated accordingly.
+
+1. Add the new release to the `<releases>` tag in the the appdata file
+   `data/org.sugarlabs.MusicBlocks.appdata.xml`.
+2. Bump the Music Blocks version number in `src/package.json`.
+3. Bump the launcher version number in `setup.py`.
+4. Build the AppImages for `arm64`, `armv7l`, and `x86_64` or download them
+   from the CI release.
+5. Update the AppImage sources in the Flatpak manifest
+   `data/org.sugarlabs.MusicBlocks.yaml` with their `sha256` checksums and
+   sizes, and bumb the launcher version number in the url.
+6. Add a new release of the launcher with the three AppImages. The last commit
+   should be the one updating the Flatpak manifest.
+7. Update the Flatpak manifest in the Flathub repo (https://github.com/flathub/org.sugarlabs.MusicBlocks).
+   The manifest should be the same as the one here except the git source with
+   the launcher should have the updated tag and commit hash.
+8. Flathub will automatically run test builds on pull requests and official
+   builds when the master branch is updated.
 
 #### Adding to the Launcher
 
