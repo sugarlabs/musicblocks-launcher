@@ -2,7 +2,7 @@ from distutils.core import setup
 import os
 
 setup(name='Music Blocks Launcher',
-    version='1.2.0',
+    version='1.2.1',
     description='Flatpak launcher for Music Blocks',
     url="https://github.com/sugarlabs/musicblocks-launcher",
     data_files=[
