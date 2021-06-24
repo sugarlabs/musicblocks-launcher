@@ -51,6 +51,9 @@ jobs:
 
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Cleanup
+        run: ./src/scripts/ci-cleanup-linux.sh
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v2
@@ -81,6 +84,9 @@ jobs:
 
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Cleanup
+        run: ./src/scripts/ci-cleanup-linux.sh
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v2
@@ -113,6 +119,9 @@ jobs:
 
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Cleanup
+        run: sh .\src\scripts\ci-cleanup-linux.sh
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v2
