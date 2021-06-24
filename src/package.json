@@ -28,7 +28,7 @@
   },
   "build": {
     "appId": "org.sugarlabs.MusicBlocks",
-    "productName": "Music Blocks",
+    "productName": "MusicBlocks",
     "copyright": "Copyright © 2020 Srevin Saju under MIT License",
     "mac": {
       "category": "org.sugarlabs.MusicBlocks"

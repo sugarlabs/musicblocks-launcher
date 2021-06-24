@@ -40,11 +40,11 @@ jobs:
           cp linux-unpacked/resources/app.asar squashfs-root/resources/.
           wget https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage
           chmod +x appimagetool-x86_64.AppImage
-          rm Musicblocks*.AppImage
+          rm MusicBlocks*.AppImage
           ./appimagetool-x86_64.AppImage squashfs-root -n
           ls 
           rm -rf squashfs-root
-          mv Musicblocks*.AppImage appimage/.
+          mv MusicBlocks*.AppImage appimage/.
           chmod +x appimage/*.AppImage
           cd ..
 
@@ -78,7 +78,7 @@ jobs:
       - name: Upload RPM
         uses: actions/upload-artifact@v1.0.0
         with:
-          name: Musicblocks-continuous-x86_64.rpm
+          name: MusicBlocks-continuous-x86_64.rpm
           path: 'src/dist/rpm/'
 
 
@@ -98,19 +98,19 @@ jobs:
       - name: Upload Debian
         uses: actions/upload-artifact@v1.0.0
         with:
-          name: Musicblocks-continuous-x86_64.deb
+          name: MusicBlocks-continuous-x86_64.deb
           path: 'src/dist/deb/'
 
       - name: Upload Appimage
         uses: actions/upload-artifact@v1.0.0
         with:
-          name: Musicblocks-continuous-x86_64.AppImage
+          name: MusicBlocks-continuous-x86_64.AppImage
           path: 'src/dist/appimage/'
       
       - name: Upload Snap
         uses: actions/upload-artifact@v1.0.0
         with:
-          name: Musicblocks-continuous-x86_64.snap
+          name: MusicBlocks-continuous-x86_64.snap
           path: 'src/dist/snap/'
       
 
@@ -135,14 +135,14 @@ jobs:
           cd src
           mkdir -p dist/appimage
           cd dist/
-          mv Musicblocks*.AppImage appimage/.
+          mv MusicBlocks*.AppImage appimage/.
           chmod +x appimage/*.AppImage
           cd ..
 
       - name: Upload AppImage aarch64
         uses: actions/upload-artifact@v1.0.0
         with:
-          name: Musicblocks-continuous-aarch64.AppImage
+          name: MusicBlocks-continuous-aarch64.AppImage
           path: 'src/dist/appimage/'
 
 
@@ -166,14 +166,14 @@ jobs:
           cd src
           mkdir -p dist/appimage
           cd dist/
-          mv Musicblocks*.AppImage appimage/.
+          mv MusicBlocks*.AppImage appimage/.
           chmod +x appimage/*.AppImage
           cd ..
 
       - name: Upload AppImage armv7
         uses: actions/upload-artifact@v1.0.0
         with:
-          name: Musicblocks-continuous-arm.AppImage
+          name: MusicBlocks-continuous-arm.AppImage
           path: 'src/dist/appimage/'
 
 
@@ -212,7 +212,7 @@ jobs:
       - name: Upload Windows exe
         uses: actions/upload-artifact@v1.0.0
         with:
-          name: Musicblocks-continuous-x86_64.exe
+          name: MusicBlocks-continuous-x86_64.exe
           path: 'src/dist/exe/'
 
   macos:
@@ -237,7 +237,7 @@ jobs:
           cd src
           git clone https://github.com/sugarlabs/musicblocks
 
-      - name: Patch Musicblocks codebase
+      - name: Patch MusicBlocks codebase
         run: |
           cd src 
           gsed -i 's/sed/gsed/g' patch.sh
@@ -259,7 +259,7 @@ jobs:
       - name: Upload MacOS DMG
         uses: actions/upload-artifact@v1.0.0
         with:
-          name: Musicblocks-continuous-x86_64.dmg
+          name: MusicBlocks-continuous-x86_64.dmg
           path: 'src/dist/dmg/'
 
   Release:
@@ -272,28 +272,28 @@ jobs:
     steps:
     - uses: actions/download-artifact@v1
       with:
-        name: Musicblocks-continuous-x86_64.dmg
+        name: MusicBlocks-continuous-x86_64.dmg
     - uses: actions/download-artifact@v1
       with:
-        name: Musicblocks-continuous-x86_64.exe
+        name: MusicBlocks-continuous-x86_64.exe
     - uses: actions/download-artifact@v1
       with:
-        name: Musicblocks-continuous-x86_64.snap
+        name: MusicBlocks-continuous-x86_64.snap
     - uses: actions/download-artifact@v1
       with:
-        name: Musicblocks-continuous-x86_64.AppImage
+        name: MusicBlocks-continuous-x86_64.AppImage
     - uses: actions/download-artifact@v1
       with:
-        name: Musicblocks-continuous-aarch64.AppImage
+        name: MusicBlocks-continuous-aarch64.AppImage
     - uses: actions/download-artifact@v1
       with:
-        name: Musicblocks-continuous-arm.AppImage
+        name: MusicBlocks-continuous-arm.AppImage
     - uses: actions/download-artifact@v1
       with:
-        name: Musicblocks-continuous-x86_64.deb 
+        name: MusicBlocks-continuous-x86_64.deb 
     - uses: actions/download-artifact@v1
       with:
-        name: Musicblocks-continuous-x86_64.rpm 
+        name: MusicBlocks-continuous-x86_64.rpm 
     
 
     - name: Release
@@ -303,12 +303,12 @@ jobs:
         automatic_release_tag: continuous
         title: continuous
         files: |
-          Musicblocks-continuous-x86_64.dmg
-          Musicblocks-continuous-x86_64.exe
-          Musicblocks-continuous-x86_64.snap
-          Musicblocks-continuous-x86_64.AppImage
-          Musicblocks-continuous-aarch64.AppImage
-          Musicblocks-continuous-arm.AppImage
-          Musicblocks-continuous-x86_64.deb
-          Musicblocks-continuous-x86_64.rpm
+          MusicBlocks-continuous-x86_64.dmg
+          MusicBlocks-continuous-x86_64.exe
+          MusicBlocks-continuous-x86_64.snap
+          MusicBlocks-continuous-x86_64.AppImage
+          MusicBlocks-continuous-aarch64.AppImage
+          MusicBlocks-continuous-arm.AppImage
+          MusicBlocks-continuous-x86_64.deb
+          MusicBlocks-continuous-x86_64.rpm
         repo_token: ${{ secrets.GITHUB_TOKEN }} 
