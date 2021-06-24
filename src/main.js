@@ -21,6 +21,7 @@ function createWindow () {
   // and load the index.html of the app.
   mainWindow.loadFile('musicblocks/index.html');
   mainWindow.removeMenu();
+  mainWindow.setTitle('Music Blocks');
   mainWindow.on('close', function(e){
     var choice = require('electron').dialog.showMessageBoxSync(this,
         {
