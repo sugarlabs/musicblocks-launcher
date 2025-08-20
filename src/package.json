@@ -26,7 +26,7 @@
   "author": "Srevin Saju <srevinsaju@sugarlabs.org>",
   "license": "MIT",
   "devDependencies": {
-    "electron": "^18.3.7",
+    "electron": "^28.3.2",
     "electron-builder": "^22.11.7"
   },
   "dependencies": {
