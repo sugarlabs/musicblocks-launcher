@@ -43,7 +43,7 @@ git clone https://github.com/sugarlabs/musicblocks-launcher  # clone this reposi
 cd musicblocks-launcher
 cd src
 yarn install
-git clone https://github.com/sugarlabs/musicblocks [--depth=1]
+git clone https://github.com/sugarlabs/musicblocks --depth=1
 sh ./patch.sh # patches the app so that it is compatible with electron
 npx electron-builder --linux appimage --publish never # defaults to current arch, use a flag for other archs
 ```
